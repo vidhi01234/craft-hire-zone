@@ -8,6 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Search, Filter, MapPin, DollarSign, Clock } from "lucide-react";
 
+// Import job images
+import webDesignImage from "@/assets/job-web-design.jpg";
+import mobileDevImage from "@/assets/job-mobile-dev.jpg";
+import ecommerceImage from "@/assets/job-ecommerce.jpg";
+import logoDesignImage from "@/assets/job-logo-design.jpg";
+import contentWritingImage from "@/assets/job-content-writing.jpg";
+import dataAnalysisImage from "@/assets/job-data-analysis.jpg";
+
 // Mock data
 const mockJobs = [
   {
@@ -21,6 +29,7 @@ const mockJobs = [
     postedAt: '2024-01-15T10:00:00Z',
     posterName: 'Sarah Johnson',
     applicantCount: 12,
+    image: webDesignImage,
   },
   {
     id: '2',
@@ -33,6 +42,7 @@ const mockJobs = [
     postedAt: '2024-01-10T14:30:00Z',
     posterName: 'TechStart Inc.',
     applicantCount: 8,
+    image: mobileDevImage,
   },
   {
     id: '3',
@@ -45,6 +55,7 @@ const mockJobs = [
     postedAt: '2024-01-18T09:00:00Z',
     posterName: 'RetailCorp',
     applicantCount: 15,
+    image: ecommerceImage,
   },
   {
     id: '4',
@@ -57,6 +68,7 @@ const mockJobs = [
     postedAt: '2024-01-17T16:20:00Z',
     posterName: 'Innovation Labs',
     applicantCount: 23,
+    image: logoDesignImage,
   },
   {
     id: '5',
@@ -69,6 +81,7 @@ const mockJobs = [
     postedAt: '2024-01-16T11:00:00Z',
     posterName: 'Digital Media Co.',
     applicantCount: 7,
+    image: contentWritingImage,
   },
   {
     id: '6',
@@ -81,6 +94,7 @@ const mockJobs = [
     postedAt: '2024-01-19T08:15:00Z',
     posterName: 'Analytics Pro',
     applicantCount: 9,
+    image: dataAnalysisImage,
   },
 ];
 
