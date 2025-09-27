@@ -2,35 +2,44 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Navigation } from "@/components/layout/Navigation";
-import { Users, Briefcase, Star, ArrowRight, CheckCircle } from "lucide-react";
-import heroImage from "@/assets/hero-image.jpg";
+import { Users, Briefcase, Star, ArrowRight, CheckCircle, Wrench, Zap, Hammer, BookOpen, Home, Shield } from "lucide-react";
+import heroImage from "@/assets/hero-image-local-connect.jpg";
 
 export default function Landing() {
+  const categories = [
+    { icon: <Zap className="h-8 w-8" />, name: "Electrician", jobs: "120+ jobs" },
+    { icon: <Wrench className="h-8 w-8" />, name: "Plumber", jobs: "85+ jobs" },
+    { icon: <Hammer className="h-8 w-8" />, name: "Carpenter", jobs: "95+ jobs" },
+    { icon: <Home className="h-8 w-8" />, name: "House Cleaning", jobs: "200+ jobs" },
+    { icon: <BookOpen className="h-8 w-8" />, name: "Home Tutor", jobs: "150+ jobs" },
+    { icon: <Users className="h-8 w-8" />, name: "Cook/Maid", jobs: "80+ jobs" },
+  ];
+
   const features = [
     {
       icon: <Users className="h-8 w-8 text-primary" />,
-      title: "Find Skilled Workers",
-      description: "Connect with qualified professionals across various industries and skill levels.",
+      title: "Trusted Local Workers",
+      description: "Connect with verified household service providers in your neighborhood - electricians, plumbers, tutors, and more.",
     },
     {
-      icon: <Briefcase className="h-8 w-8 text-secondary" />,
-      title: "Post Your Jobs",
-      description: "Easily create detailed job postings and manage applications from talented workers.",
+      icon: <Shield className="h-8 w-8 text-secondary" />,
+      title: "Safe & Secure",
+      description: "All workers are background verified. Secure payments in Indian Rupees with customer protection.",
     },
     {
       icon: <Star className="h-8 w-8 text-accent" />,
-      title: "Quality Assurance",
-      description: "Built-in rating system ensures quality work and reliable service providers.",
+      title: "Quality Guaranteed",
+      description: "Rating system and customer reviews ensure you get reliable, quality household services every time.",
     },
   ];
 
   const benefits = [
-    "Secure payment processing",
-    "24/7 customer support", 
-    "Verified worker profiles",
-    "Project milestone tracking",
-    "Dispute resolution system",
-    "Mobile-friendly platform"
+    "Verified worker profiles with ID proof",
+    "Customer support in Hindi & English", 
+    "Secure payment in ₹ (Rupees)",
+    "Same-day service availability",
+    "Customer protection guarantee",
+    "Mobile app for easy booking"
   ];
 
   return (
@@ -46,23 +55,26 @@ export default function Landing() {
         ></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Connect. Work. Succeed.
+            <span className="text-white">Local</span>{" "}
+            <span className="text-accent">Connect</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-            The marketplace where skilled workers meet opportunities. 
-            Post jobs or find work that matches your expertise.
+          <p className="text-xl md:text-2xl mb-4 max-w-3xl mx-auto opacity-90">
+            Connecting people with trusted local services
+          </p>
+          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-80">
+            Find reliable household service providers in your area - from electricians and plumbers to tutors and house help.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button asChild size="xl" variant="secondary" className="min-w-48">
+            <Button asChild size="xl" className="min-w-48 bg-accent hover:bg-accent-light shadow-brand-lg">
               <Link to="/signup?role=job_giver">
-                I Need Workers
+                I Need a Service
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button asChild size="xl" variant="outline" className="min-w-48 bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
               <Link to="/signup?role=worker">
-                I Want to Work
+                I Offer a Service
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -70,15 +82,43 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Categories Section */}
       <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Why Choose JobMarket?
+              Popular Household Services
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Our platform makes it easy to connect, collaborate, and complete projects successfully.
+              Find trusted local service providers for all your household needs
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {categories.map((category, index) => (
+              <Link key={index} to="/browse" className="group">
+                <Card className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth hover:-translate-y-2 text-center p-6">
+                  <div className="mx-auto mb-3 p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-smooth w-fit">
+                    {category.icon}
+                  </div>
+                  <h3 className="font-semibold text-foreground mb-1">{category.name}</h3>
+                  <p className="text-sm text-muted-foreground">{category.jobs}</p>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Why Choose Local Connect?
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              India's most trusted platform for household services with verified local workers
             </p>
           </div>
 
@@ -103,16 +143,15 @@ export default function Landing() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20">
+      <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Everything you need for successful projects
+                Safe, reliable household services
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Our comprehensive platform provides all the tools and support you need 
-                to manage projects from start to finish.
+                Get peace of mind with our comprehensive verification process and customer protection for all household services.
               </p>
               
               <div className="grid sm:grid-cols-2 gap-4">
@@ -125,9 +164,9 @@ export default function Landing() {
               </div>
               
               <div className="mt-8">
-                <Button asChild size="lg">
+                <Button asChild size="lg" className="bg-accent hover:bg-accent-light">
                   <Link to="/browse">
-                    Start Browsing Jobs
+                    Find Services Now
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -138,20 +177,20 @@ export default function Landing() {
               <Card className="bg-gradient-primary p-1">
                 <div className="bg-background rounded-lg p-8">
                   <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-                    Join thousands of satisfied users
+                    Trusted by households across India
                   </h3>
                   <div className="grid grid-cols-3 gap-6 text-center">
                     <div>
-                      <div className="text-3xl font-bold text-primary">25K+</div>
-                      <div className="text-sm text-muted-foreground">Active Workers</div>
+                      <div className="text-3xl font-bold text-primary">15K+</div>
+                      <div className="text-sm text-muted-foreground">Service Providers</div>
                     </div>
                     <div>
                       <div className="text-3xl font-bold text-secondary">50K+</div>
-                      <div className="text-sm text-muted-foreground">Jobs Posted</div>
+                      <div className="text-sm text-muted-foreground">Services Completed</div>
                     </div>
                     <div>
-                      <div className="text-3xl font-bold text-accent">98%</div>
-                      <div className="text-sm text-muted-foreground">Success Rate</div>
+                      <div className="text-3xl font-bold text-accent">4.8⭐</div>
+                      <div className="text-sm text-muted-foreground">Average Rating</div>
                     </div>
                   </div>
                 </div>
@@ -168,18 +207,18 @@ export default function Landing() {
             Ready to get started?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Join JobMarket today and discover the future of work.
+            Join Local Connect today and get trusted household services at your doorstep.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="xl" variant="secondary">
+            <Button asChild size="xl" className="bg-accent hover:bg-accent-light shadow-brand-lg">
               <Link to="/signup">
-                Create Account
+                Get Started
               </Link>
             </Button>
             <Button asChild size="xl" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
               <Link to="/browse">
-                Browse Jobs
+                Browse Services
               </Link>
             </Button>
           </div>
@@ -192,36 +231,35 @@ export default function Landing() {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
-                <Briefcase className="h-8 w-8" />
-                <span className="text-xl font-bold">JobMarket</span>
+                <Home className="h-8 w-8" />
+                <span className="text-xl font-bold">Local Connect</span>
               </div>
               <p className="text-background/80 max-w-md">
-                The premier marketplace connecting skilled workers with opportunities. 
-                Building the future of work, one project at a time.
+                India's trusted platform for household services. Connecting you with verified local service providers for all your home needs.
               </p>
             </div>
             
             <div>
-              <h3 className="font-semibold mb-4">For Workers</h3>
+              <h3 className="font-semibold mb-4">For Customers</h3>
               <ul className="space-y-2 text-background/80">
-                <li><Link to="/browse" className="hover:text-background transition-smooth">Find Jobs</Link></li>
-                <li><Link to="/signup?role=worker" className="hover:text-background transition-smooth">Create Profile</Link></li>
+                <li><Link to="/browse" className="hover:text-background transition-smooth">Find Services</Link></li>
+                <li><Link to="/signup?role=job_giver" className="hover:text-background transition-smooth">Book a Service</Link></li>
                 <li><Link to="/help" className="hover:text-background transition-smooth">Help Center</Link></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="font-semibold mb-4">For Employers</h3>
+              <h3 className="font-semibold mb-4">For Service Providers</h3>
               <ul className="space-y-2 text-background/80">
-                <li><Link to="/signup?role=job_giver" className="hover:text-background transition-smooth">Post Jobs</Link></li>
-                <li><Link to="/browse" className="hover:text-background transition-smooth">Find Workers</Link></li>
+                <li><Link to="/signup?role=worker" className="hover:text-background transition-smooth">Join as Provider</Link></li>
+                <li><Link to="/browse" className="hover:text-background transition-smooth">Find Work</Link></li>
                 <li><Link to="/help" className="hover:text-background transition-smooth">Support</Link></li>
               </ul>
             </div>
           </div>
           
           <div className="border-t border-background/20 mt-8 pt-8 text-center text-background/60">
-            <p>&copy; 2024 JobMarket. All rights reserved.</p>
+            <p>&copy; 2024 Local Connect. All rights reserved. Made in India 🇮🇳</p>
           </div>
         </div>
       </footer>

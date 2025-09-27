@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Job Marketplace Design System - Professional & Modern */
+/* Local Connect Design System - Blue & Orange Theme for Indian Household Services */
 
 @layer base {
   :root {
@@ -10,21 +10,21 @@
     --background: 0 0% 100%;
     --foreground: 215 25% 15%;
     
-    /* Primary Brand - Professional Blue */
-    --primary: 210 100% 45%;
+    /* Primary Brand - Trust Blue */
+    --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 210 100% 55%;
-    --primary-dark: 210 100% 35%;
+    --primary-light: 210 100% 60%;
+    --primary-dark: 210 100% 40%;
     
-    /* Secondary - Success Green */
-    --secondary: 142 76% 36%;
+    /* Secondary - Warm Blue */
+    --secondary: 220 100% 55%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 142 76% 46%;
+    --secondary-light: 220 100% 65%;
     
-    /* Accent - Vibrant Orange */
-    --accent: 25 95% 53%;
+    /* Accent - Energy Orange */
+    --accent: 25 100% 55%;
     --accent-foreground: 0 0% 100%;
-    --accent-light: 25 95% 63%;
+    --accent-light: 25 100% 65%;
     
     /* UI Elements */
     --card: 0 0% 100%;
@@ -93,20 +93,20 @@
     --foreground: 0 0% 98%;
     
     /* Primary Brand - Brighter in dark */
-    --primary: 210 100% 55%;
+    --primary: 210 100% 60%;
     --primary-foreground: 215 28% 8%;
-    --primary-light: 210 100% 65%;
-    --primary-dark: 210 100% 45%;
+    --primary-light: 210 100% 70%;
+    --primary-dark: 210 100% 50%;
     
     /* Secondary - Adjusted for dark */
-    --secondary: 142 76% 46%;
+    --secondary: 220 100% 60%;
     --secondary-foreground: 215 28% 8%;
-    --secondary-light: 142 76% 56%;
+    --secondary-light: 220 100% 70%;
     
     /* Accent - Warmer in dark */
-    --accent: 25 95% 63%;
+    --accent: 25 100% 60%;
     --accent-foreground: 215 28% 8%;
-    --accent-light: 25 95% 73%;
+    --accent-light: 25 100% 70%;
     
     /* UI Elements */
     --card: 215 25% 12%;

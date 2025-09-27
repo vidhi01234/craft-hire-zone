@@ -31,8 +31,10 @@ export function Navigation({ user }: NavigationProps) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <Briefcase className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">JobMarket</span>
+            <div className="flex items-center space-x-1">
+              <span className="text-xl font-bold text-primary">Local</span>
+              <span className="text-xl font-bold text-accent">Connect</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -45,7 +47,7 @@ export function Navigation({ user }: NavigationProps) {
                     isActive('/browse') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
-                  Browse Jobs
+                  Browse Services
                 </Link>
                 <Link 
                   to="/dashboard" 
@@ -85,7 +87,7 @@ export function Navigation({ user }: NavigationProps) {
                   to="/browse" 
                   className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium transition-smooth"
                 >
-                  Browse Jobs
+                  Browse Services
                 </Link>
                 <Button asChild variant="ghost">
                   <Link to="/login">Log In</Link>
@@ -121,7 +123,7 @@ export function Navigation({ user }: NavigationProps) {
                     className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Browse Jobs
+                    Browse Services
                   </Link>
                   <Link
                     to="/dashboard"
@@ -154,7 +156,7 @@ export function Navigation({ user }: NavigationProps) {
                     className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Browse Jobs
+                    Browse Services
                   </Link>
                   <Link
                     to="/login"

@@ -24,7 +24,7 @@ interface JobCardProps {
 
 export function JobCard({ job, showApplyButton = false, showManageButton = false }: JobCardProps) {
   const formatBudget = (amount: number, type: 'fixed' | 'hourly') => {
-    return type === 'fixed' ? `$${amount.toLocaleString()}` : `$${amount}/hr`;
+    return type === 'fixed' ? `₹${amount.toLocaleString()}` : `₹${amount}/task`;
   };
 
   const timeAgo = (dateString: string) => {

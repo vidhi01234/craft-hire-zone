@@ -28,9 +28,12 @@ export default function Auth() {
       <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <Briefcase className="mx-auto h-12 w-12 text-primary" />
-            <h1 className="mt-4 text-3xl font-bold text-foreground">Welcome to JobMarket</h1>
-            <p className="mt-2 text-muted-foreground">Connect with opportunities that matter</p>
+            <div className="flex items-center justify-center space-x-1 text-3xl font-bold">
+              <span className="text-primary">Local</span>
+              <span className="text-accent">Connect</span>
+            </div>
+            <h1 className="mt-4 text-3xl font-bold text-foreground">Welcome to Local Connect</h1>
+            <p className="mt-2 text-muted-foreground">Connecting people with trusted local services</p>
           </div>
 
           <Tabs defaultValue="login" className="w-full">
@@ -105,8 +108,8 @@ export default function Auth() {
                           <Label htmlFor="worker" className="flex items-center gap-3 cursor-pointer flex-1">
                             <User className="h-5 w-5 text-primary" />
                             <div>
-                              <div className="font-medium">Find Work</div>
-                              <div className="text-sm text-muted-foreground">I'm looking for jobs and projects</div>
+                              <div className="font-medium">Offer Services</div>
+                              <div className="text-sm text-muted-foreground">I provide household services (electrician, plumber, etc.)</div>
                             </div>
                           </Label>
                         </div>
@@ -115,8 +118,8 @@ export default function Auth() {
                           <Label htmlFor="job_giver" className="flex items-center gap-3 cursor-pointer flex-1">
                             <Users className="h-5 w-5 text-secondary" />
                             <div>
-                              <div className="font-medium">Hire Workers</div>
-                              <div className="text-sm text-muted-foreground">I need to hire skilled professionals</div>
+                              <div className="font-medium">Need Services</div>
+                              <div className="text-sm text-muted-foreground">I need household services (cleaning, repairs, etc.)</div>
                             </div>
                           </Label>
                         </div>

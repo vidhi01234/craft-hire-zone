@@ -14,7 +14,7 @@ import { Plus, Briefcase, Users, Eye, TrendingUp } from "lucide-react";
 
 // Mock data
 const mockUser = {
-  name: "Sarah Johnson",
+  name: "Priya Sharma",
   role: 'job_giver' as const,
   avatar: "",
 };
@@ -22,26 +22,26 @@ const mockUser = {
 const mockJobs = [
   {
     id: '1',
-    title: 'Website Redesign Project',
-    description: 'Looking for a skilled web designer to completely redesign our company website. Must have experience with modern design principles and responsive layouts.',
-    category: 'Web Design',
-    location: 'Remote',
+    title: 'House Deep Cleaning Service',
+    description: 'Looking for professional house cleaning service for 3BHK apartment in Koramangala. Need thorough cleaning including kitchen, bathrooms, and all rooms.',
+    category: 'Cleaning',
+    location: 'Koramangala, Bangalore',
     budget: 2500,
     budgetType: 'fixed' as const,
     postedAt: '2024-01-15T10:00:00Z',
-    posterName: 'Sarah Johnson',
+    posterName: 'Priya Sharma',
     applicantCount: 12,
   },
   {
     id: '2',
-    title: 'Mobile App Development',
-    description: 'Need a React Native developer to build a mobile app for our startup. The app should work on both iOS and Android platforms.',
-    category: 'Mobile Development',
-    location: 'New York, NY',
-    budget: 75,
-    budgetType: 'hourly' as const,
+    title: 'Electrical Wiring Repair',
+    description: 'Need experienced electrician to fix electrical wiring issues in bedroom and install new ceiling fan. Safety and quality work required.',
+    category: 'Electrical',
+    location: 'Gurgaon, Delhi NCR',
+    budget: 3500,
+    budgetType: 'fixed' as const,
     postedAt: '2024-01-10T14:30:00Z',
-    posterName: 'Sarah Johnson',
+    posterName: 'Priya Sharma',
     applicantCount: 8,
   },
 ];
