@@ -39,86 +39,89 @@ export function JobCard({ job, showApplyButton = false, showManageButton = false
   };
 
   return (
-    <Card className="bg-gradient-card border-card-border hover:shadow-brand-md transition-smooth hover:-translate-y-1">
-      <CardHeader className="pb-3">
-        <div className="flex justify-between items-start gap-4">
-          <div className="flex-1">
-            <CardTitle className="text-lg font-semibold text-foreground hover:text-primary transition-smooth">
-              <Link to={`/jobs/${job.id}`}>{job.title}</Link>
-            </CardTitle>
-            <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <User className="h-4 w-4" />
-                {job.posterName}
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                {timeAgo(job.postedAt)}
-              </div>
-            </div>
-          </div>
-          <Badge variant="secondary" className="text-xs">
+    <Card className="bg-gradient-card border-card-border hover-lift group overflow-hidden">
+      {/* Image First - Prominent Display */}
+      {job.image && (
+        <div className="aspect-[4/3] overflow-hidden">
+          <img 
+            src={job.image} 
+            alt={job.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
+          />
+        </div>
+      )}
+      
+      <div className="p-4 sm:p-6">
+        {/* Header with Category Badge */}
+        <div className="flex justify-between items-start gap-3 mb-3">
+          <Badge className="bg-accent hover:bg-accent text-accent-foreground text-xs font-medium">
             {job.category}
           </Badge>
-        </div>
-      </CardHeader>
-
-      <CardContent className="pb-4">
-        {job.image && (
-          <div className="mb-4 rounded-lg overflow-hidden">
-            <img 
-              src={job.image} 
-              alt={job.title}
-              className="w-full h-32 object-cover"
-            />
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Clock className="h-3 w-3" />
+            {timeAgo(job.postedAt)}
           </div>
-        )}
-        
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
+        </div>
+
+        {/* Title */}
+        <CardTitle className="text-lg sm:text-xl font-heading font-semibold text-foreground hover:text-primary transition-smooth mb-2 leading-tight">
+          <Link to={`/jobs/${job.id}`} className="line-clamp-2">
+            {job.title}
+          </Link>
+        </CardTitle>
+
+        {/* Description */}
+        <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
           {job.description}
         </p>
 
-        <div className="flex items-center justify-between text-sm">
-          <div className="flex items-center gap-1 text-success font-medium">
+        {/* Budget and Location */}
+        <div className="flex items-center justify-between text-sm mb-4">
+          <div className="flex items-center gap-1 text-success font-bold">
             <DollarSign className="h-4 w-4" />
             {formatBudget(job.budget, job.budgetType)}
           </div>
           <div className="flex items-center gap-1 text-muted-foreground">
             <MapPin className="h-4 w-4" />
-            {job.location}
+            <span className="truncate max-w-20 sm:max-w-none">{job.location}</span>
           </div>
         </div>
 
-        {job.applicantCount !== undefined && (
-          <div className="mt-2 text-xs text-muted-foreground">
-            {job.applicantCount} {job.applicantCount === 1 ? 'applicant' : 'applicants'}
-          </div>
-        )}
-      </CardContent>
+        {/* Poster Info */}
+        <div className="flex items-center gap-2 mb-4 text-xs text-muted-foreground">
+          <User className="h-3 w-3" />
+          <span>{job.posterName}</span>
+          {job.applicantCount !== undefined && (
+            <>
+              <span>•</span>
+              <span>{job.applicantCount} {job.applicantCount === 1 ? 'applicant' : 'applicants'}</span>
+            </>
+          )}
+        </div>
 
-      <CardFooter className="pt-0">
-        <div className="flex gap-2 w-full">
-          <Button asChild variant="outline" className="flex-1">
+        {/* Action Buttons */}
+        <div className="flex gap-2">
+          <Button asChild variant="outline" className="flex-1 hover-scale text-sm">
             <Link to={`/jobs/${job.id}`}>
               View Details
             </Link>
           </Button>
           
           {showApplyButton && (
-            <Button className="flex-1">
+            <Button className="flex-1 hover-scale text-sm">
               Apply Now
             </Button>
           )}
           
           {showManageButton && (
-            <Button asChild variant="secondary" className="flex-1">
+            <Button asChild variant="secondary" className="flex-1 hover-scale text-sm">
               <Link to={`/jobs/${job.id}/manage`}>
                 Manage
               </Link>
             </Button>
           )}
         </div>
-      </CardFooter>
+      </div>
     </Card>
   );
 }

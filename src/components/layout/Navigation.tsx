@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Menu, X, User, LogOut, Briefcase, Search } from "lucide-react";
+import { Menu, X, User, LogOut, Briefcase, Search, Home } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NavigationProps {
   user?: {
@@ -17,6 +18,7 @@ export function Navigation({ user }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   const handleLogout = () => {
     // TODO: Implement logout logic
@@ -26,14 +28,15 @@ export function Navigation({ user }: NavigationProps) {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="bg-background border-b border-border shadow-brand-sm sticky top-0 z-50">
+    <nav className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border shadow-brand-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2 hover-scale">
+            <Home className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
             <div className="flex items-center space-x-1">
-              <span className="text-xl font-bold text-primary">Local</span>
-              <span className="text-xl font-bold text-accent">Connect</span>
+              <span className="text-lg sm:text-xl font-heading font-bold text-primary">Local</span>
+              <span className="text-lg sm:text-xl font-heading font-bold text-accent">Connect</span>
             </div>
           </Link>
 
