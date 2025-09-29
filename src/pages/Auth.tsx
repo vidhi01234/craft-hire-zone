@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,20 +7,91 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Navigation } from "@/components/layout/Navigation";
-import { Briefcase, User, Users, Home, ArrowRight, CheckCircle } from "lucide-react";
+import { User, Users, Home, ArrowRight, CheckCircle } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "@/hooks/use-toast";
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { user, signUp, signIn } = useAuth();
   const initialRole = searchParams.get('role') || 'worker';
   const [selectedRole, setSelectedRole] = useState<'job_giver' | 'worker'>(initialRole as 'job_giver' | 'worker');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent, type: 'login' | 'signup') => {
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement authentication logic
-    navigate('/dashboard');
+    setLoading(true);
+    
+    const form = e.target as HTMLFormElement;
+    const email = (form.elements.namedItem('login-email') as HTMLInputElement).value;
+    const password = (form.elements.namedItem('login-password') as HTMLInputElement).value;
+
+    const { error } = await signIn(email, password);
+    
+    if (error) {
+      toast({
+        title: "Login failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+    
+    setLoading(false);
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    const form = e.target as HTMLFormElement;
+    const firstName = (form.elements.namedItem('signup-first-name') as HTMLInputElement).value;
+    const lastName = (form.elements.namedItem('signup-last-name') as HTMLInputElement).value;
+    const email = (form.elements.namedItem('signup-email') as HTMLInputElement).value;
+    const password = (form.elements.namedItem('signup-password') as HTMLInputElement).value;
+    const confirmPassword = (form.elements.namedItem('signup-confirm-password') as HTMLInputElement).value;
+
+    if (password !== confirmPassword) {
+      toast({
+        title: "Passwords don't match",
+        description: "Please make sure your passwords match",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      toast({
+        title: "Password too short",
+        description: "Password must be at least 6 characters",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    const fullName = `${firstName} ${lastName}`;
+    const { error } = await signUp(email, password, fullName, selectedRole);
+    
+    if (error) {
+      toast({
+        title: "Signup failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+    
+    setLoading(false);
   };
 
   return (
@@ -59,32 +130,41 @@ export default function Auth() {
                     Sign in to access your Local Connect account
                   </CardDescription>
                 </CardHeader>
-                <form onSubmit={(e) => handleSubmit(e, 'login')}>
+                <form onSubmit={handleLogin}>
                   <CardContent className="space-y-4 sm:space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="login-email" className="text-sm font-medium">Email</Label>
                       <Input
                         id="login-email"
+                        name="login-email"
                         type="email"
                         placeholder="your@email.com"
                         required
                         className="h-11"
+                        disabled={loading}
                       />
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="login-password" className="text-sm font-medium">Password</Label>
                       <Input
                         id="login-password"
+                        name="login-password"
                         type="password"
                         placeholder="Enter your password"
                         required
                         className="h-11"
+                        disabled={loading}
                       />
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-col space-y-4">
-                    <Button type="submit" className="w-full hover-scale" size={isMobile ? "default" : "lg"}>
-                      Sign In
+                    <Button 
+                      type="submit" 
+                      className="w-full hover-scale" 
+                      size={isMobile ? "default" : "lg"}
+                      disabled={loading}
+                    >
+                      {loading ? "Signing in..." : "Sign In"}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                     <div className="text-center text-xs sm:text-sm text-muted-foreground">
@@ -105,7 +185,7 @@ export default function Auth() {
                     Create your account and connect with trusted local services
                   </CardDescription>
                 </CardHeader>
-                <form onSubmit={(e) => handleSubmit(e, 'signup')}>
+                <form onSubmit={handleSignup}>
                   <CardContent className="space-y-4 sm:space-y-6">
                     {/* Role Selection */}
                     <div className="space-y-3">
@@ -114,6 +194,7 @@ export default function Auth() {
                         value={selectedRole} 
                         onValueChange={(value) => setSelectedRole(value as 'job_giver' | 'worker')}
                         className="grid grid-cols-1 gap-3"
+                        disabled={loading}
                       >
                         <div className="relative">
                           <RadioGroupItem value="worker" id="worker" className="sr-only" />
@@ -183,18 +264,22 @@ export default function Auth() {
                         <Label htmlFor="signup-first-name" className="text-sm font-medium">First Name</Label>
                         <Input
                           id="signup-first-name"
+                          name="signup-first-name"
                           placeholder="Rahul"
                           required
                           className="h-11"
+                          disabled={loading}
                         />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="signup-last-name" className="text-sm font-medium">Last Name</Label>
                         <Input
                           id="signup-last-name"
+                          name="signup-last-name"
                           placeholder="Sharma"
                           required
                           className="h-11"
+                          disabled={loading}
                         />
                       </div>
                     </div>
@@ -203,10 +288,12 @@ export default function Auth() {
                       <Label htmlFor="signup-email" className="text-sm font-medium">Email</Label>
                       <Input
                         id="signup-email"
+                        name="signup-email"
                         type="email"
                         placeholder="rahul@email.com"
                         required
                         className="h-11"
+                        disabled={loading}
                       />
                     </div>
 
@@ -214,10 +301,13 @@ export default function Auth() {
                       <Label htmlFor="signup-password" className="text-sm font-medium">Password</Label>
                       <Input
                         id="signup-password"
+                        name="signup-password"
                         type="password"
                         placeholder="Create a strong password"
                         required
+                        minLength={6}
                         className="h-11"
+                        disabled={loading}
                       />
                     </div>
 
@@ -225,16 +315,24 @@ export default function Auth() {
                       <Label htmlFor="signup-confirm-password" className="text-sm font-medium">Confirm Password</Label>
                       <Input
                         id="signup-confirm-password"
+                        name="signup-confirm-password"
                         type="password"
                         placeholder="Confirm your password"
                         required
+                        minLength={6}
                         className="h-11"
+                        disabled={loading}
                       />
                     </div>
                   </CardContent>
                   <CardFooter className="flex flex-col space-y-4">
-                    <Button type="submit" className="w-full hover-scale" size={isMobile ? "default" : "lg"}>
-                      Create Account
+                    <Button 
+                      type="submit" 
+                      className="w-full hover-scale" 
+                      size={isMobile ? "default" : "lg"}
+                      disabled={loading}
+                    >
+                      {loading ? "Creating account..." : "Create Account"}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                     <div className="text-center text-xs sm:text-sm text-muted-foreground">
