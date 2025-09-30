@@ -15,6 +15,8 @@ export interface Job {
   profiles?: {
     full_name: string;
     avatar_url?: string;
+    bio?: string;
+    location?: string;
   };
   job_images?: Array<{
     id: string;
