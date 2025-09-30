@@ -19,45 +19,9 @@ const mockUser = {
   avatar: "",
 };
 
-const mockRecommendedJobs = [
-  {
-    id: '3',
-    title: 'E-commerce Store Development',
-    description: 'Build a modern e-commerce website using React and Node.js. Must include payment integration and admin dashboard.',
-    category: 'Web Development',
-    location: 'Remote',
-    budget: 5000,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-18T09:00:00Z',
-    posterName: 'TechCorp Inc.',
-  },
-  {
-    id: '4',
-    title: 'Logo Design for Startup',
-    description: 'Looking for a creative designer to create a memorable logo for our tech startup. Must be modern and scalable.',
-    category: 'Design',
-    location: 'San Francisco, CA',
-    budget: 45,
-    budgetType: 'hourly' as const,
-    postedAt: '2024-01-17T16:20:00Z',
-    posterName: 'Innovation Labs',
-  },
-];
+const mockRecommendedJobs: any[] = [];
 
-const mockAppliedJobs = [
-  {
-    id: '1',
-    title: 'Website Redesign Project',
-    description: 'Looking for a skilled web designer to completely redesign our company website.',
-    category: 'Web Design',
-    location: 'Remote',
-    budget: 2500,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-15T10:00:00Z',
-    posterName: 'Sarah Johnson',
-    status: 'Under Review',
-  },
-];
+const mockAppliedJobs: any[] = [];
 
 export default function WorkerDashboard() {
   const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);

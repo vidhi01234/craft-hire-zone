@@ -26,32 +26,7 @@ const mockClient = {
 We believe in working with talented freelancers and contractors who share our passion for excellence. Our projects range from website development and design to content creation and digital marketing campaigns.
 
 We value clear communication, timely delivery, and high-quality work. We provide detailed project requirements and are always available to answer questions throughout the project lifecycle.`,
-  activeJobs: [
-    {
-      id: '1',
-      title: 'Website Redesign Project',
-      description: 'Looking for a skilled web designer to completely redesign our company website.',
-      category: 'Web Design',
-      location: 'Remote',
-      budget: 2500,
-      budgetType: 'fixed' as const,
-      postedAt: '2024-01-15T10:00:00Z',
-      posterName: 'Sarah Johnson',
-      applicantCount: 12,
-    },
-    {
-      id: '2',
-      title: 'Content Marketing Strategy',
-      description: 'Need an experienced content strategist to develop a comprehensive content marketing plan.',
-      category: 'Marketing',
-      location: 'Remote',
-      budget: 65,
-      budgetType: 'hourly' as const,
-      postedAt: '2024-01-18T14:00:00Z',
-      posterName: 'Sarah Johnson',
-      applicantCount: 8,
-    }
-  ],
+  activeJobs: [] as any[],
   completedJobs: [
     {
       id: '3',

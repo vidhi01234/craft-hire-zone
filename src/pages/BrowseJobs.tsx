@@ -9,125 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Search, Filter, MapPin, DollarSign, Clock, SlidersHorizontal } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-// Import job images
-import gardeningImage from "@/assets/job-gardening.jpg";
-import electricianImage from "@/assets/job-electrician.jpg";
-import plumbingImage from "@/assets/job-plumbing.jpg";
-import cleaningImage from "@/assets/job-cleaning.jpg";
-import handymanImage from "@/assets/job-handyman.jpg";
-import tutoringImage from "@/assets/job-tutoring.jpg";
-import webDesignImage from "@/assets/job-web-design.jpg";
-import mobileDevImage from "@/assets/job-mobile-dev.jpg";
-
-// Mock data - Indian Household Services Platform
-const mockJobs = [
-  {
-    id: '1',
-    title: 'Garden Maintenance & Landscaping',
-    description: 'Need an experienced gardener for weekly garden maintenance, pruning, lawn care, and seasonal planting in residential property.',
-    category: 'Gardening',
-    location: 'Koramangala, Bangalore',
-    budget: 2000,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-15T10:00:00Z',
-    posterName: 'Priya Sharma',
-    applicantCount: 8,
-    image: gardeningImage,
-  },
-  {
-    id: '2',
-    title: 'Electrical Wiring & Installation',
-    description: 'Licensed electrician needed for home electrical work including outlet installation, lighting fixtures, and electrical panel upgrade.',
-    category: 'Electrical',
-    location: 'Gurgaon, Delhi NCR',
-    budget: 3500,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-10T14:30:00Z',
-    posterName: 'Rajesh Kumar',
-    applicantCount: 5,
-    image: electricianImage,
-  },
-  {
-    id: '3',
-    title: 'Kitchen Plumbing Repair',
-    description: 'Experienced plumber needed to fix kitchen sink leak, replace faucet, and check water pressure issues. Same day service preferred.',
-    category: 'Plumbing',
-    location: 'Bandra, Mumbai',
-    budget: 1500,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-18T09:00:00Z',
-    posterName: 'Anita Singh',
-    applicantCount: 12,
-    image: plumbingImage,
-  },
-  {
-    id: '4',
-    title: 'Deep House Cleaning Service',
-    description: 'Professional house cleaning service needed for 3-bedroom apartment. Looking for thorough cleaning including windows, appliances, and bathrooms.',
-    category: 'Cleaning',
-    location: 'Powai, Mumbai',
-    budget: 1200,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-17T16:20:00Z',
-    posterName: 'Vivek Gupta',
-    applicantCount: 15,
-    image: cleaningImage,
-  },
-  {
-    id: '5',
-    title: 'Home Renovation & Repairs',
-    description: 'Skilled handyman needed for various home repairs including wall painting, door installation, and furniture assembly.',
-    category: 'Handyman',
-    location: 'Indiranagar, Bangalore',
-    budget: 2500,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-16T11:00:00Z',
-    posterName: 'Meera Reddy',
-    applicantCount: 6,
-    image: handymanImage,
-  },
-  {
-    id: '6',
-    title: 'Math Tutoring for Class 12th',
-    description: 'Experienced math tutor needed for Class 12th student. Help with algebra, calculus and board exam preparation. Flexible schedule preferred.',
-    category: 'Tutoring',
-    location: 'Connaught Place, Delhi',
-    budget: 800,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-19T08:15:00Z',
-    posterName: 'Ravi Joshi',
-    applicantCount: 9,
-    image: tutoringImage,
-  },
-  {
-    id: '7',
-    title: 'Website Development for Local Business',
-    description: 'Small business needs a simple website with contact information, services, and online booking system. Mobile-friendly design required.',
-    category: 'Web Development',
-    location: 'Cyber City, Hyderabad',
-    budget: 25000,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-14T12:00:00Z',
-    posterName: 'Kavya Iyer',
-    applicantCount: 11,
-    image: webDesignImage,
-  },
-  {
-    id: '8',
-    title: 'Mobile App for Service Booking',
-    description: 'Looking for mobile developer to create a service booking app for home maintenance services. iOS and Android compatibility needed.',
-    category: 'Mobile Development',
-    location: 'Whitefield, Bangalore',
-    budget: 45000,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-13T15:30:00Z',
-    posterName: 'Arjun Patel',
-    applicantCount: 7,
-    image: mobileDevImage,
-  },
-];
-
+import { useJobs } from "@/hooks/useJobs";
 const categories = [
   'All Categories',
   'Gardening',
@@ -157,31 +39,26 @@ export default function BrowseJobs() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All Categories');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
-  const [budgetType, setBudgetType] = useState('all');
   const [sortBy, setSortBy] = useState('newest');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const isMobile = useIsMobile();
 
-  const filteredJobs = mockJobs.filter(job => {
-    const matchesSearch = job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         job.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'All Categories' || job.category === selectedCategory;
-    const matchesLocation = selectedLocation === 'All Locations' || job.location === selectedLocation;
-    const matchesBudget = budgetType === 'all' || job.budgetType === budgetType;
-    
-    return matchesSearch && matchesCategory && matchesLocation && matchesBudget;
+  const { data: jobs = [], isLoading } = useJobs({
+    category: selectedCategory !== 'All Categories' ? selectedCategory : undefined,
+    location: selectedLocation !== 'All Locations' ? selectedLocation : undefined,
+    search: searchQuery || undefined,
   });
 
-  const sortedJobs = [...filteredJobs].sort((a, b) => {
+  const sortedJobs = [...jobs].sort((a, b) => {
     switch (sortBy) {
       case 'budget-high':
         return b.budget - a.budget;
       case 'budget-low':
         return a.budget - b.budget;
       case 'applications':
-        return (b.applicantCount || 0) - (a.applicantCount || 0);
+        return (b.applications?.length || 0) - (a.applications?.length || 0);
       default: // newest
-        return new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime();
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     }
   });
 
@@ -189,7 +66,6 @@ export default function BrowseJobs() {
     setSearchQuery('');
     setSelectedCategory('All Categories');
     setSelectedLocation('All Locations');
-    setBudgetType('all');
   };
 
   const FilterContent = () => (
@@ -242,20 +118,6 @@ export default function BrowseJobs() {
         </Select>
       </div>
 
-      {/* Budget Type */}
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Budget Type</label>
-        <Select value={budgetType} onValueChange={setBudgetType}>
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Types</SelectItem>
-            <SelectItem value="fixed">Fixed Price</SelectItem>
-            <SelectItem value="hourly">Hourly Rate</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
 
       {/* Clear Filters */}
       <Button 
@@ -346,7 +208,7 @@ export default function BrowseJobs() {
                 </p>
                 {isMobile && (
                   <Badge variant="outline" className="text-xs">
-                    {(searchQuery || selectedCategory !== 'All Categories' || selectedLocation !== 'All Locations' || budgetType !== 'all') 
+                    {(searchQuery || selectedCategory !== 'All Categories' || selectedLocation !== 'All Locations') 
                       ? 'Filtered' : 'All Jobs'}
                   </Badge>
                 )}
@@ -368,7 +230,7 @@ export default function BrowseJobs() {
             </div>
 
             {/* Active Filters - Desktop Only */}
-            {!isMobile && (searchQuery || selectedCategory !== 'All Categories' || selectedLocation !== 'All Locations' || budgetType !== 'all') && (
+            {!isMobile && (searchQuery || selectedCategory !== 'All Categories' || selectedLocation !== 'All Locations') && (
               <div className="flex flex-wrap gap-2 mb-6">
                 <span className="text-sm text-muted-foreground">Active filters:</span>
                 {searchQuery && (
@@ -399,18 +261,6 @@ export default function BrowseJobs() {
                     {selectedLocation}
                     <button 
                       onClick={() => setSelectedLocation('All Locations')}
-                      className="ml-1 hover:text-destructive"
-                    >
-                      ×
-                    </button>
-                  </Badge>
-                )}
-                {budgetType !== 'all' && (
-                  <Badge variant="secondary" className="flex items-center gap-1 hover-scale">
-                    <DollarSign className="h-3 w-3" />
-                    {budgetType === 'fixed' ? 'Fixed Price' : 'Hourly Rate'}
-                    <button 
-                      onClick={() => setBudgetType('all')}
                       className="ml-1 hover:text-destructive"
                     >
                       ×

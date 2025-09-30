@@ -1,30 +1,19 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, DollarSign, Clock, User } from "lucide-react";
+import { Job } from "@/hooks/useJobs";
 
 interface JobCardProps {
-  job: {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    location: string;
-    budget: number;
-    budgetType: 'fixed' | 'hourly';
-    postedAt: string;
-    posterName: string;
-    applicantCount?: number;
-    image?: string;
-  };
+  job: Job;
   showApplyButton?: boolean;
   showManageButton?: boolean;
 }
 
 export function JobCard({ job, showApplyButton = false, showManageButton = false }: JobCardProps) {
-  const formatBudget = (amount: number, type: 'fixed' | 'hourly') => {
-    return type === 'fixed' ? `₹${amount.toLocaleString()}` : `₹${amount}/task`;
+  const formatBudget = (amount: number) => {
+    return `₹${amount.toLocaleString()}`;
   };
 
   const timeAgo = (dateString: string) => {
@@ -38,13 +27,17 @@ export function JobCard({ job, showApplyButton = false, showManageButton = false
     return `${diffInDays}d ago`;
   };
 
+  const primaryImage = job.job_images?.find(img => img.is_primary)?.image_url || job.job_images?.[0]?.image_url;
+  const posterName = job.profiles?.full_name || 'Unknown';
+  const applicantCount = job.applications?.length || 0;
+
   return (
     <Card className="bg-gradient-card border-card-border hover-lift group overflow-hidden">
       {/* Image First - Prominent Display */}
-      {job.image && (
+      {primaryImage && (
         <div className="aspect-[4/3] overflow-hidden">
           <img 
-            src={job.image} 
+            src={primaryImage} 
             alt={job.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-smooth"
           />
@@ -59,7 +52,7 @@ export function JobCard({ job, showApplyButton = false, showManageButton = false
           </Badge>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Clock className="h-3 w-3" />
-            {timeAgo(job.postedAt)}
+            {timeAgo(job.created_at)}
           </div>
         </div>
 
@@ -79,7 +72,7 @@ export function JobCard({ job, showApplyButton = false, showManageButton = false
         <div className="flex items-center justify-between text-sm mb-4">
           <div className="flex items-center gap-1 text-success font-bold">
             <DollarSign className="h-4 w-4" />
-            {formatBudget(job.budget, job.budgetType)}
+            {formatBudget(job.budget)}
           </div>
           <div className="flex items-center gap-1 text-muted-foreground">
             <MapPin className="h-4 w-4" />
@@ -90,11 +83,11 @@ export function JobCard({ job, showApplyButton = false, showManageButton = false
         {/* Poster Info */}
         <div className="flex items-center gap-2 mb-4 text-xs text-muted-foreground">
           <User className="h-3 w-3" />
-          <span>{job.posterName}</span>
-          {job.applicantCount !== undefined && (
+          <span>{posterName}</span>
+          {applicantCount > 0 && (
             <>
               <span>•</span>
-              <span>{job.applicantCount} {job.applicantCount === 1 ? 'applicant' : 'applicants'}</span>
+              <span>{applicantCount} {applicantCount === 1 ? 'applicant' : 'applicants'}</span>
             </>
           )}
         </div>

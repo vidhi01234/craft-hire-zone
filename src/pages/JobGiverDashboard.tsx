@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,48 +10,50 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus, Briefcase, Users, Eye, TrendingUp } from "lucide-react";
-
-// Mock data
-const mockUser = {
-  name: "Priya Sharma",
-  role: 'job_giver' as const,
-  avatar: "",
-};
-
-const mockJobs = [
-  {
-    id: '1',
-    title: 'House Deep Cleaning Service',
-    description: 'Looking for professional house cleaning service for 3BHK apartment in Koramangala. Need thorough cleaning including kitchen, bathrooms, and all rooms.',
-    category: 'Cleaning',
-    location: 'Koramangala, Bangalore',
-    budget: 2500,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-15T10:00:00Z',
-    posterName: 'Priya Sharma',
-    applicantCount: 12,
-  },
-  {
-    id: '2',
-    title: 'Electrical Wiring Repair',
-    description: 'Need experienced electrician to fix electrical wiring issues in bedroom and install new ceiling fan. Safety and quality work required.',
-    category: 'Electrical',
-    location: 'Gurgaon, Delhi NCR',
-    budget: 3500,
-    budgetType: 'fixed' as const,
-    postedAt: '2024-01-10T14:30:00Z',
-    posterName: 'Priya Sharma',
-    applicantCount: 8,
-  },
-];
+import { useMyJobs, useCreateJob } from "@/hooks/useJobs";
+import { ImageUpload } from "@/components/upload/ImageUpload";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function JobGiverDashboard() {
   const [isPostJobOpen, setIsPostJobOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    category: "",
+    location: "",
+    budget: "",
+  });
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
-  const handlePostJob = (e: React.FormEvent) => {
+  const { user } = useAuth();
+  const { data: jobs = [], isLoading } = useMyJobs();
+  const createJob = useCreateJob();
+
+  const handlePostJob = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement job posting logic
+    
+    await createJob.mutateAsync({
+      title: formData.title,
+      description: formData.description,
+      category: formData.category,
+      location: formData.location,
+      budget: parseFloat(formData.budget),
+      imageUrls,
+    });
+
+    setFormData({
+      title: "",
+      description: "",
+      category: "",
+      location: "",
+      budget: "",
+    });
+    setImageUrls([]);
     setIsPostJobOpen(false);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const stats = [
@@ -92,7 +93,7 @@ export default function JobGiverDashboard() {
           <div>
             <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
             <p className="text-muted-foreground mt-1">
-              Welcome back, {mockUser.name}! Manage your job postings and applications.
+              Welcome back! Manage your job postings and applications.
             </p>
           </div>
           
@@ -117,24 +118,25 @@ export default function JobGiverDashboard() {
                     <Label htmlFor="job-title">Job Title</Label>
                     <Input
                       id="job-title"
-                      placeholder="e.g. Web Developer"
+                      placeholder="e.g. House Cleaning"
+                      value={formData.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
                       required
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="job-category">Category</Label>
-                    <Select required>
+                    <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)} required>
                       <SelectTrigger>
                         <SelectValue placeholder="Select category" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="web-development">Web Development</SelectItem>
-                        <SelectItem value="mobile-development">Mobile Development</SelectItem>
-                        <SelectItem value="design">Design</SelectItem>
-                        <SelectItem value="writing">Writing</SelectItem>
-                        <SelectItem value="marketing">Marketing</SelectItem>
-                        <SelectItem value="data-science">Data Science</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="Cleaning">Cleaning</SelectItem>
+                        <SelectItem value="Plumbing">Plumbing</SelectItem>
+                        <SelectItem value="Electrical">Electrical</SelectItem>
+                        <SelectItem value="Handyman">Handyman</SelectItem>
+                        <SelectItem value="Gardening">Gardening</SelectItem>
+                        <SelectItem value="Tutoring">Tutoring</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -146,6 +148,8 @@ export default function JobGiverDashboard() {
                     id="job-description"
                     placeholder="Describe the job requirements, skills needed, and project details..."
                     rows={4}
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
                     required
                   />
                 </div>
@@ -155,41 +159,31 @@ export default function JobGiverDashboard() {
                     <Label htmlFor="job-location">Location</Label>
                     <Input
                       id="job-location"
-                      placeholder="e.g. Remote, New York, NY"
+                      placeholder="e.g. Bangalore, India"
+                      value={formData.location}
+                      onChange={(e) => handleInputChange('location', e.target.value)}
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="job-budget-type">Budget Type</Label>
-                    <Select required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="fixed">Fixed Price</SelectItem>
-                        <SelectItem value="hourly">Hourly Rate</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="job-budget">Budget (₹)</Label>
+                    <Input
+                      id="job-budget"
+                      type="number"
+                      placeholder="Enter amount"
+                      min="1"
+                      value={formData.budget}
+                      onChange={(e) => handleInputChange('budget', e.target.value)}
+                      required
+                    />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="job-budget">Budget ($)</Label>
-                  <Input
-                    id="job-budget"
-                    type="number"
-                    placeholder="Enter amount"
-                    min="1"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="job-image">Project Image (Optional)</Label>
-                  <Input
-                    id="job-image"
-                    type="file"
-                    accept="image/*"
+                  <Label>Project Image (Optional)</Label>
+                  <ImageUpload
+                    bucket="job-images"
+                    onUploadComplete={(url) => setImageUrls([...imageUrls, url])}
                   />
                 </div>
 
@@ -239,7 +233,7 @@ export default function JobGiverDashboard() {
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   My Posted Jobs
-                  <Badge variant="secondary">{mockJobs.length} Active</Badge>
+                  <Badge variant="secondary">{jobs.length} Active</Badge>
                 </CardTitle>
                 <CardDescription>
                   Manage your job postings and view applications
@@ -247,8 +241,10 @@ export default function JobGiverDashboard() {
               </CardHeader>
               <CardContent className="p-0">
                 <div className="space-y-4 p-6">
-                  {mockJobs.length > 0 ? (
-                    mockJobs.map((job) => (
+                  {isLoading ? (
+                    <p className="text-center text-muted-foreground">Loading jobs...</p>
+                  ) : jobs.length > 0 ? (
+                    jobs.map((job) => (
                       <JobCard 
                         key={job.id} 
                         job={job} 
