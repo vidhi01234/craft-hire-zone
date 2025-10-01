@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Star, MapPin, Briefcase, Clock, Mail, Award, TrendingUp } from "lucide-react";
 import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useAuth } from "@/hooks/useAuth";
+import { EditProfileDialog } from "@/components/profile/EditProfileDialog";
 
 export default function WorkerProfile() {
   const { id } = useParams();
@@ -97,53 +98,57 @@ export default function WorkerProfile() {
                       )}
                     </div>
                     
-                    {!isOwnProfile && (
-                      <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-                        <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                          <DialogTrigger asChild>
-                            <Button size="lg">
-                              <Mail className="mr-2 h-4 w-4" />
-                              Contact {profileData.full_name}
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Send Message to {profileData.full_name}</DialogTitle>
-                              <DialogDescription>
-                                Send a direct message to discuss your project requirements.
-                              </DialogDescription>
-                            </DialogHeader>
-                            
-                            <form onSubmit={handleSendMessage} className="space-y-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="message">Your Message</Label>
-                                <Textarea
-                                  id="message"
-                                  placeholder={`Hi ${profileData.full_name}, I have a project that might be a good fit for your skills...`}
-                                  rows={6}
-                                  value={message}
-                                  onChange={(e) => setMessage(e.target.value)}
-                                  required
-                                />
-                              </div>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                      {isOwnProfile ? (
+                        <EditProfileDialog profileData={profileData} />
+                      ) : (
+                        <>
+                          <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+                            <DialogTrigger asChild>
+                              <Button size="lg">
+                                <Mail className="mr-2 h-4 w-4" />
+                                Contact {profileData.full_name}
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Send Message to {profileData.full_name}</DialogTitle>
+                                <DialogDescription>
+                                  Send a direct message to discuss your project requirements.
+                                </DialogDescription>
+                              </DialogHeader>
                               
-                              <div className="flex justify-end gap-3">
-                                <Button type="button" variant="outline" onClick={() => setIsContactOpen(false)}>
-                                  Cancel
-                                </Button>
-                                <Button type="submit">
-                                  Send Message
-                                </Button>
-                              </div>
-                            </form>
-                          </DialogContent>
-                        </Dialog>
-                        
-                        <Button variant="outline" size="lg">
-                          Invite to Job
-                        </Button>
-                      </div>
-                    )}
+                              <form onSubmit={handleSendMessage} className="space-y-4">
+                                <div className="space-y-2">
+                                  <Label htmlFor="message">Your Message</Label>
+                                  <Textarea
+                                    id="message"
+                                    placeholder={`Hi ${profileData.full_name}, I have a project that might be a good fit for your skills...`}
+                                    rows={6}
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    required
+                                  />
+                                </div>
+                                
+                                <div className="flex justify-end gap-3">
+                                  <Button type="button" variant="outline" onClick={() => setIsContactOpen(false)}>
+                                    Cancel
+                                  </Button>
+                                  <Button type="submit">
+                                    Send Message
+                                  </Button>
+                                </div>
+                              </form>
+                            </DialogContent>
+                          </Dialog>
+                          
+                          <Button variant="outline" size="lg">
+                            Invite to Job
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </CardContent>
