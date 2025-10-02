@@ -1,63 +1,74 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Navigation } from "@/components/layout/Navigation";
-import { JobCard } from "@/components/jobs/JobCard";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { User, Briefcase, Clock, Star, Edit, Search } from "lucide-react";
-
-// Mock data
-const mockUser = {
-  name: "Alex Chen",
-  role: 'worker' as const,
-  avatar: "",
-};
-
-const mockRecommendedJobs: any[] = [];
-
-const mockAppliedJobs: any[] = [];
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { User, Briefcase, Clock, Star, Search, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useWorkerProfile } from "@/hooks/useWorkerProfile";
+import { useWorkerApplications, useWithdrawApplication } from "@/hooks/useWorkerApplications";
+import { useJobs } from "@/hooks/useJobs";
 
 export default function WorkerDashboard() {
-  const [isProfileEditOpen, setIsProfileEditOpen] = useState(false);
+  const { user } = useAuth();
+  const { data: profile, isLoading: profileLoading } = useWorkerProfile();
+  const { data: applications = [], isLoading: applicationsLoading } = useWorkerApplications();
+  const { data: jobs = [] } = useJobs({});
+  const withdrawApplication = useWithdrawApplication();
 
-  const handleProfileUpdate = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement profile update logic
-    setIsProfileEditOpen(false);
-  };
+  const pendingApplications = applications.filter(app => app.status === 'pending');
+  const acceptedApplications = applications.filter(app => app.status === 'accepted');
+  const rejectedApplications = applications.filter(app => app.status === 'rejected');
 
   const stats = [
     {
-      title: "Applications Sent",
-      value: "12",
+      title: "Total Applications",
+      value: applications.length.toString(),
       icon: <Briefcase className="h-5 w-5" />,
-      description: "This month",
+      description: "All time",
     },
     {
-      title: "Active Proposals",
-      value: "3",
+      title: "Pending",
+      value: pendingApplications.length.toString(),
       icon: <Clock className="h-5 w-5" />,
       description: "Awaiting response",
     },
     {
-      title: "Profile Views",
-      value: "87",
-      icon: <User className="h-5 w-5" />,
-      description: "Last 30 days",
+      title: "Accepted",
+      value: acceptedApplications.length.toString(),
+      icon: <CheckCircle className="h-5 w-5" />,
+      description: "Jobs secured",
     },
     {
-      title: "Success Score",
-      value: "4.8",
+      title: "Average Rating",
+      value: profile?.workerProfile?.rating_average?.toFixed(1) || "0.0",
       icon: <Star className="h-5 w-5" />,
-      description: "Average rating",
+      description: "Your rating",
     },
   ];
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'accepted':
+        return <Badge className="bg-green-500/10 text-green-600 border-green-500/20">Accepted</Badge>;
+      case 'rejected':
+        return <Badge className="bg-red-500/10 text-red-600 border-red-500/20">Rejected</Badge>;
+      default:
+        return <Badge variant="outline">Pending</Badge>;
+    }
+  };
+
+  if (profileLoading || applicationsLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <p className="text-center text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -67,124 +78,18 @@ export default function WorkerDashboard() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-foreground">Worker Dashboard</h1>
             <p className="text-muted-foreground mt-1">
-              Welcome back, {mockUser.name}! Find your next opportunity.
+              Welcome back, {profile?.full_name || 'Worker'}! Track your applications and find new opportunities.
             </p>
           </div>
           
           <div className="flex gap-3">
-            <Dialog open={isProfileEditOpen} onOpenChange={setIsProfileEditOpen}>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <Edit className="mr-2 h-4 w-4" />
-                  Edit Profile
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>Edit Your Profile</DialogTitle>
-                  <DialogDescription>
-                    Update your professional information to attract better job opportunities.
-                  </DialogDescription>
-                </DialogHeader>
-                
-                <form onSubmit={handleProfileUpdate} className="space-y-6">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="first-name">First Name</Label>
-                      <Input
-                        id="first-name"
-                        defaultValue="Alex"
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="last-name">Last Name</Label>
-                      <Input
-                        id="last-name"
-                        defaultValue="Chen"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="title">Professional Title</Label>
-                    <Input
-                      id="title"
-                      placeholder="e.g. Full Stack Developer"
-                      defaultValue="Full Stack Developer"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="bio">Professional Bio</Label>
-                    <Textarea
-                      id="bio"
-                      placeholder="Tell potential employers about your experience and skills..."
-                      rows={4}
-                      defaultValue="Experienced developer with 5+ years in web technologies..."
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="location">Location</Label>
-                      <Input
-                        id="location"
-                        placeholder="City, State"
-                        defaultValue="Seattle, WA"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="hourly-rate">Hourly Rate ($)</Label>
-                      <Input
-                        id="hourly-rate"
-                        type="number"
-                        placeholder="50"
-                        defaultValue="65"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="skills">Skills (comma-separated)</Label>
-                    <Input
-                      id="skills"
-                      placeholder="JavaScript, React, Node.js, Python"
-                      defaultValue="JavaScript, React, Node.js, Python, AWS"
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="experience">Years of Experience</Label>
-                    <Select defaultValue="5">
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">Less than 1 year</SelectItem>
-                        <SelectItem value="2">1-2 years</SelectItem>
-                        <SelectItem value="3">3-5 years</SelectItem>
-                        <SelectItem value="5">5-10 years</SelectItem>
-                        <SelectItem value="10">10+ years</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="flex justify-end gap-3">
-                    <Button type="button" variant="outline" onClick={() => setIsProfileEditOpen(false)}>
-                      Cancel
-                    </Button>
-                    <Button type="submit">
-                      Update Profile
-                    </Button>
-                  </div>
-                </form>
-              </DialogContent>
-            </Dialog>
-            
+            <Button asChild variant="outline">
+              <Link to="/profile/worker">
+                View Profile
+              </Link>
+            </Button>
             <Button asChild>
               <Link to="/browse">
                 <Search className="mr-2 h-4 w-4" />
@@ -223,155 +128,171 @@ export default function WorkerDashboard() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Recommended Jobs */}
-            <Card className="bg-gradient-card border-card-border">
-              <CardHeader>
-                <CardTitle>Recommended for You</CardTitle>
-                <CardDescription>
-                  Jobs that match your skills and experience
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div className="space-y-4 p-6">
-                  {mockRecommendedJobs.map((job) => (
-                    <JobCard 
-                      key={job.id} 
-                      job={job} 
-                      showApplyButton={true}
-                    />
-                  ))}
-                  <div className="text-center pt-4">
-                    <Button asChild variant="outline">
-                      <Link to="/browse">View All Jobs</Link>
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Applied Jobs */}
+            {/* My Applications */}
             <Card className="bg-gradient-card border-card-border">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   My Applications
-                  <Badge variant="secondary">{mockAppliedJobs.length}</Badge>
+                  <Badge variant="secondary">{applications.length}</Badge>
                 </CardTitle>
                 <CardDescription>
                   Track the status of your job applications
                 </CardDescription>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="space-y-4 p-6">
-                  {mockAppliedJobs.map((job) => (
-                    <div key={job.id} className="border border-card-border rounded-lg p-4 bg-muted/20">
-                      <div className="flex justify-between items-start gap-4">
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-foreground mb-1">{job.title}</h3>
-                          <p className="text-sm text-muted-foreground mb-2">{job.posterName}</p>
-                          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                            <span>{job.category}</span>
-                            <span>{job.location}</span>
-                            <span>${job.budget.toLocaleString()}</span>
+              <CardContent>
+                {applications.length > 0 ? (
+                  <div className="space-y-4">
+                    {applications.map((application) => (
+                      <div key={application.id} className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
+                        <div className="flex justify-between items-start gap-4 mb-3">
+                          <div className="flex-1">
+                            <Link to={`/jobs/${application.job_id}`}>
+                              <h3 className="font-semibold text-foreground mb-1 hover:text-primary">
+                                {application.jobs.title}
+                              </h3>
+                            </Link>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              Posted by: {application.jobs.profiles.full_name}
+                            </p>
+                            <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                              <span>{application.jobs.category}</span>
+                              <span>{application.jobs.location}</span>
+                              <span>Budget: ₹{application.jobs.budget.toLocaleString()}</span>
+                              {application.proposed_rate && (
+                                <span className="text-foreground font-medium">
+                                  Your rate: ₹{application.proposed_rate}
+                                </span>
+                              )}
+                            </div>
                           </div>
+                          {getStatusBadge(application.status)}
                         </div>
-                        <Badge variant="outline">Under Review</Badge>
+                        
+                        {application.cover_message && (
+                          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+                            {application.cover_message}
+                          </p>
+                        )}
+
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                          <Clock className="h-3 w-3" />
+                          Applied {new Date(application.applied_at).toLocaleDateString()}
+                        </div>
+
+                        <div className="flex gap-2">
+                          <Button asChild variant="outline" size="sm">
+                            <Link to={`/jobs/${application.job_id}`}>View Job</Link>
+                          </Button>
+                          {application.status === 'pending' && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm"
+                              onClick={() => withdrawApplication.mutate(application.id)}
+                            >
+                              Withdraw
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      <div className="mt-4 flex gap-2">
-                        <Button asChild variant="outline" size="sm">
-                          <Link to={`/jobs/${job.id}`}>View Job</Link>
-                        </Button>
-                        <Button variant="ghost" size="sm">
-                          Withdraw Application
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <AlertCircle className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+                    <p className="text-muted-foreground mb-4">You haven't applied to any jobs yet</p>
+                    <Button asChild>
+                      <Link to="/browse">Browse Jobs</Link>
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Profile Completion */}
+            {/* Worker Stats */}
             <Card className="bg-gradient-card border-card-border">
               <CardHeader>
-                <CardTitle>Profile Strength</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Profile Completion</span>
-                    <span className="text-sm font-medium">85%</span>
-                  </div>
-                  <div className="w-full bg-muted rounded-full h-2">
-                    <div className="bg-primary h-2 rounded-full" style={{ width: '85%' }}></div>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-success rounded-full"></div>
-                      <span>Professional photo added</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-success rounded-full"></div>
-                      <span>Skills listed</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-muted rounded-full"></div>
-                      <span>Portfolio examples needed</span>
-                    </div>
-                  </div>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full"
-                    onClick={() => setIsProfileEditOpen(true)}
-                  >
-                    Complete Profile
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Recent Activity */}
-            <Card className="bg-gradient-card border-card-border">
-              <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
+                <CardTitle>Your Profile Stats</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Application submitted</p>
-                    <p className="text-xs text-muted-foreground">Website Redesign Project • 2 hours ago</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Rating</span>
+                  <div className="flex items-center gap-1">
+                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                    <span className="font-semibold">
+                      {profile?.workerProfile?.rating_average?.toFixed(1) || '0.0'}
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-secondary rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Profile viewed</p>
-                    <p className="text-xs text-muted-foreground">By TechCorp Inc. • 1 day ago</p>
-                  </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Jobs Completed</span>
+                  <span className="font-semibold">
+                    {profile?.workerProfile?.total_jobs_completed || 0}
+                  </span>
                 </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Skills updated</p>
-                    <p className="text-xs text-muted-foreground">Added React & Node.js • 3 days ago</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-muted-foreground">Experience</span>
+                  <span className="font-semibold">
+                    {profile?.workerProfile?.experience_years || 0} years
+                  </span>
+                </div>
+                {profile?.workerProfile?.categories && profile.workerProfile.categories.length > 0 && (
+                  <div>
+                    <span className="text-sm text-muted-foreground mb-2 block">Skills</span>
+                    <div className="flex flex-wrap gap-2">
+                      {profile.workerProfile.categories.map((category, idx) => (
+                        <Badge key={idx} variant="secondary">{category}</Badge>
+                      ))}
+                    </div>
                   </div>
+                )}
+                <Button asChild className="w-full" variant="outline">
+                  <Link to="/profile/worker">Edit Profile</Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Application Summary */}
+            <Card className="bg-gradient-card border-card-border">
+              <CardHeader>
+                <CardTitle>Application Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-600" />
+                    <span className="text-sm">Accepted</span>
+                  </div>
+                  <span className="font-semibold text-green-600">{acceptedApplications.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-yellow-600" />
+                    <span className="text-sm">Pending</span>
+                  </div>
+                  <span className="font-semibold text-yellow-600">{pendingApplications.length}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <XCircle className="h-4 w-4 text-red-600" />
+                    <span className="text-sm">Rejected</span>
+                  </div>
+                  <span className="font-semibold text-red-600">{rejectedApplications.length}</span>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Pro Tips */}
+            {/* Quick Actions */}
             <Card className="bg-gradient-accent text-accent-foreground">
               <CardContent className="p-6">
-                <h3 className="font-semibold mb-2">💡 Pro Tip</h3>
+                <h3 className="font-semibold mb-2">💡 Quick Tip</h3>
                 <p className="text-sm mb-4 opacity-90">
-                  Workers with complete profiles get 3x more job invitations.
+                  Complete your profile and add portfolio examples to increase your chances of getting hired.
                 </p>
-                <Button variant="outline" size="sm" className="w-full bg-white/10 border-white/20 text-white hover:bg-white hover:text-accent">
-                  Learn More
+                <Button asChild variant="outline" size="sm" className="w-full bg-white/10 border-white/20 text-white hover:bg-white hover:text-accent">
+                  <Link to="/browse">Find Jobs</Link>
                 </Button>
               </CardContent>
             </Card>
