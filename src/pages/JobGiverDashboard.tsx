@@ -13,6 +13,8 @@ import { Plus, Briefcase, Users, Eye, TrendingUp } from "lucide-react";
 import { useMyJobs, useCreateJob } from "@/hooks/useJobs";
 import { ImageUpload } from "@/components/upload/ImageUpload";
 import { useAuth } from "@/hooks/useAuth";
+import { ApplicationsList } from "@/components/applications/ApplicationsList";
+import { useMyJobApplications } from "@/hooks/useApplications";
 
 export default function JobGiverDashboard() {
   const [isPostJobOpen, setIsPostJobOpen] = useState(false);
@@ -27,6 +29,7 @@ export default function JobGiverDashboard() {
 
   const { user } = useAuth();
   const { data: jobs = [], isLoading } = useMyJobs();
+  const { data: applications = [] } = useMyJobApplications();
   const createJob = useCreateJob();
 
   const handlePostJob = async (e: React.FormEvent) => {
@@ -56,30 +59,35 @@ export default function JobGiverDashboard() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const activeJobs = jobs.filter(job => job.status === 'open').length;
+  const totalApplications = applications.length;
+  const pendingApplications = applications.filter(app => app.status === 'pending').length;
+  const acceptedApplications = applications.filter(app => app.status === 'accepted').length;
+
   const stats = [
     {
       title: "Active Jobs",
-      value: "2",
+      value: activeJobs.toString(),
       icon: <Briefcase className="h-5 w-5" />,
       description: "Currently posted",
     },
     {
       title: "Total Applications",
-      value: "20",
+      value: totalApplications.toString(),
       icon: <Users className="h-5 w-5" />,
       description: "Across all jobs",
     },
     {
-      title: "Profile Views",
-      value: "124",
+      title: "Pending Review",
+      value: pendingApplications.toString(),
       icon: <Eye className="h-5 w-5" />,
-      description: "This month",
+      description: "Awaiting response",
     },
     {
-      title: "Success Rate",
-      value: "92%",
+      title: "Accepted",
+      value: acceptedApplications.toString(),
       icon: <TrendingUp className="h-5 w-5" />,
-      description: "Completed projects",
+      description: "Applications approved",
     },
   ];
 
@@ -224,6 +232,11 @@ export default function JobGiverDashboard() {
               </CardContent>
             </Card>
           ))}
+        </div>
+
+        {/* Applications */}
+        <div className="mb-8">
+          <ApplicationsList />
         </div>
 
         {/* My Jobs */}
