@@ -82,3 +82,45 @@ export const useWithdrawApplication = () => {
     },
   });
 };
+
+export const useSubmitApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ jobId, coverMessage, proposedRate }: { 
+      jobId: string; 
+      coverMessage: string; 
+      proposedRate?: number;
+    }) => {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData.user) throw new Error('Not authenticated');
+
+      const { error } = await supabase
+        .from('applications')
+        .insert({
+          job_id: jobId,
+          worker_id: userData.user.id,
+          cover_message: coverMessage,
+          proposed_rate: proposedRate,
+          status: 'pending',
+        });
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['worker-applications'] });
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      toast({
+        title: 'Application submitted',
+        description: 'Your application has been submitted successfully. The job poster will review it soon.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Failed to submit application',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+};

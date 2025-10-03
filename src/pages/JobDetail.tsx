@@ -10,6 +10,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { MapPin, DollarSign, Clock, User, Star, ArrowLeft, Send } from "lucide-react";
 import { useJobDetail } from "@/hooks/useJobs";
+import { useSubmitApplication } from "@/hooks/useWorkerApplications";
 
 export default function JobDetail() {
   const { id } = useParams<{ id: string }>();
@@ -17,12 +18,24 @@ export default function JobDetail() {
   const [proposalText, setProposalText] = useState('');
 
   const { data: job, isLoading, error } = useJobDetail(id || '');
+  const submitApplication = useSubmitApplication();
 
   const handleApply = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement application logic
-    setIsApplicationOpen(false);
-    setProposalText('');
+    if (!id || !proposalText.trim()) return;
+
+    submitApplication.mutate(
+      {
+        jobId: id,
+        coverMessage: proposalText,
+      },
+      {
+        onSuccess: () => {
+          setIsApplicationOpen(false);
+          setProposalText('');
+        },
+      }
+    );
   };
 
   const timeAgo = (dateString: string) => {
@@ -153,8 +166,8 @@ export default function JobDetail() {
                           <Button type="button" variant="outline" onClick={() => setIsApplicationOpen(false)}>
                             Cancel
                           </Button>
-                          <Button type="submit">
-                            Submit Application
+                          <Button type="submit" disabled={submitApplication.isPending}>
+                            {submitApplication.isPending ? 'Submitting...' : 'Submit Application'}
                           </Button>
                         </div>
                       </form>
