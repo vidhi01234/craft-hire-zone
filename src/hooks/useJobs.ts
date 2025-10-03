@@ -179,3 +179,33 @@ export const useMyJobs = () => {
     },
   });
 };
+
+export const useDeleteJob = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (jobId: string) => {
+      const { error } = await supabase
+        .from('jobs')
+        .delete()
+        .eq('id', jobId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+      queryClient.invalidateQueries({ queryKey: ['my-jobs'] });
+      toast({
+        title: 'Job deleted',
+        description: 'Your job has been removed successfully.',
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'Failed to delete job',
+        description: error.message,
+        variant: 'destructive',
+      });
+    },
+  });
+};

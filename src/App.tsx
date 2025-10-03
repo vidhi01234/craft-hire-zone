@@ -8,6 +8,7 @@ import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import BrowseJobs from "./pages/BrowseJobs";
 import JobDetail from "./pages/JobDetail";
+import ManageJob from "./pages/ManageJob";
 import JobGiverDashboard from "./pages/JobGiverDashboard";
 import WorkerDashboard from "./pages/WorkerDashboard";
 import WorkerProfile from "./pages/WorkerProfile";
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/signup" element={<Auth />} />
             <Route path="/browse" element={<BrowseJobs />} />
             <Route path="/jobs/:id" element={<JobDetail />} />
+            <Route path="/jobs/:id/manage" element={<ManageJob />} />
             <Route path="/dashboard" element={<WorkerDashboard />} />
             <Route path="/dashboard/job-giver" element={<JobGiverDashboard />} />
             <Route path="/profile/worker/:id" element={<WorkerProfile />} />
