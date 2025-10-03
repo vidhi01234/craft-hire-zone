@@ -154,6 +154,17 @@ export default function WorkerDashboard() {
                             <p className="text-sm text-muted-foreground mb-2">
                               Posted by: {application.jobs.profiles.full_name}
                             </p>
+                            {application.status === 'accepted' && (
+                              <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-md p-2 mb-2 text-sm">
+                                <p className="font-medium text-green-900 dark:text-green-100 mb-1">Contact Information:</p>
+                                {application.jobs.profiles.email && (
+                                  <p className="text-green-800 dark:text-green-200">Email: {application.jobs.profiles.email}</p>
+                                )}
+                                {application.jobs.profiles.phone && (
+                                  <p className="text-green-800 dark:text-green-200">Phone: {application.jobs.profiles.phone}</p>
+                                )}
+                              </div>
+                            )}
                             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                               <span>{application.jobs.category}</span>
                               <span>{application.jobs.location}</span>

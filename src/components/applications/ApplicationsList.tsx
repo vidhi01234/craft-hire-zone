@@ -183,6 +183,20 @@ const ApplicationCard = ({ application, onAccept, onReject, showActions = true }
             </p>
           )}
 
+          {application.status === 'accepted' && (
+            <div className="bg-green-50 dark:bg-green-900/10 border border-green-200 dark:border-green-800 rounded-md p-3 mb-3">
+              <p className="font-medium text-green-900 dark:text-green-100 mb-2 text-sm">Contact Information:</p>
+              <div className="space-y-1 text-sm">
+                {application.profiles.email && (
+                  <p className="text-green-800 dark:text-green-200">Email: {application.profiles.email}</p>
+                )}
+                {application.profiles.phone && (
+                  <p className="text-green-800 dark:text-green-200">Phone: {application.profiles.phone}</p>
+                )}
+              </div>
+            </div>
+          )}
+
           {showActions && application.status === 'pending' && (
             <div className="flex gap-2">
               <Button 

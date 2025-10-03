@@ -20,6 +20,8 @@ export interface WorkerApplication {
     profiles: {
       full_name: string;
       avatar_url?: string;
+      email?: string;
+      phone?: string;
     };
   };
 }
@@ -42,7 +44,7 @@ export const useWorkerApplications = () => {
             category,
             location,
             posted_by,
-            profiles:posted_by (full_name, avatar_url)
+            profiles:posted_by (full_name, avatar_url, email, phone)
           )
         `)
         .eq('worker_id', userData.user.id)

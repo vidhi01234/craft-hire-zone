@@ -20,6 +20,8 @@ export interface Application {
     avatar_url?: string;
     bio?: string;
     location?: string;
+    email?: string;
+    phone?: string;
   };
 }
 
@@ -47,7 +49,7 @@ export const useMyJobApplications = () => {
         .select(`
           *,
           jobs (title, budget, category),
-          profiles:worker_id (full_name, avatar_url, bio, location)
+          profiles:worker_id (full_name, avatar_url, bio, location, email, phone)
         `)
         .in('job_id', jobIds)
         .order('applied_at', { ascending: false });
