@@ -9,12 +9,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useWorkerApplications, useWithdrawApplication } from "@/hooks/useWorkerApplications";
 import { useJobs } from "@/hooks/useJobs";
+import { JobCard } from "@/components/jobs/JobCard";
 
 export default function WorkerDashboard() {
   const { user } = useAuth();
   const { data: profile, isLoading: profileLoading } = useWorkerProfile();
   const { data: applications = [], isLoading: applicationsLoading } = useWorkerApplications();
-  const { data: jobs = [] } = useJobs({});
+  const { data: jobs = [], isLoading: jobsLoading } = useJobs({});
   const withdrawApplication = useWithdrawApplication();
 
   const pendingApplications = applications.filter(app => app.status === 'pending');
@@ -214,6 +215,34 @@ export default function WorkerDashboard() {
                     <Button asChild>
                       <Link to="/browse">Browse Jobs</Link>
                     </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Available Jobs */}
+            <Card className="bg-gradient-card border-card-border">
+              <CardHeader>
+                <CardTitle>Available Jobs</CardTitle>
+                <CardDescription>
+                  Browse and apply to new opportunities
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {jobsLoading ? (
+                  <p className="text-center text-muted-foreground">Loading jobs...</p>
+                ) : jobs.length > 0 ? (
+                  <div className="space-y-4">
+                    {jobs.slice(0, 6).map((job) => (
+                      <JobCard key={job.id} job={job} />
+                    ))}
+                    <Button asChild variant="outline" className="w-full mt-4">
+                      <Link to="/browse">View All Jobs</Link>
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-muted-foreground">No jobs available at the moment</p>
                   </div>
                 )}
               </CardContent>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,14 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Briefcase, Users, Eye, TrendingUp } from "lucide-react";
+import { Plus, Briefcase, Users, Eye, TrendingUp, Star, MapPin } from "lucide-react";
 import { useMyJobs, useCreateJob } from "@/hooks/useJobs";
 import { ImageUpload } from "@/components/upload/ImageUpload";
 import { useAuth } from "@/hooks/useAuth";
 import { ApplicationsList } from "@/components/applications/ApplicationsList";
 import { useMyJobApplications } from "@/hooks/useApplications";
+import { useWorkerProfiles } from "@/hooks/useWorkerProfiles";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function JobGiverDashboard() {
+  const navigate = useNavigate();
   const [isPostJobOpen, setIsPostJobOpen] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -31,6 +35,7 @@ export default function JobGiverDashboard() {
   const { data: jobs = [], isLoading } = useMyJobs();
   const { data: applications = [] } = useMyJobApplications();
   const createJob = useCreateJob();
+  const { data: workerProfiles = [], isLoading: workersLoading } = useWorkerProfiles();
 
   const handlePostJob = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -287,30 +292,66 @@ export default function JobGiverDashboard() {
           <div className="space-y-6">
             <Card className="bg-gradient-card border-card-border">
               <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
+                <CardTitle>Available Workers</CardTitle>
+                <CardDescription>
+                  Browse profiles of workers ready to take on jobs
+                </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">New application received</p>
-                    <p className="text-xs text-muted-foreground">Website Redesign Project • 2 hours ago</p>
+              <CardContent>
+                {workersLoading ? (
+                  <p className="text-sm text-muted-foreground">Loading workers...</p>
+                ) : workerProfiles.length > 0 ? (
+                  <div className="space-y-4">
+                    {workerProfiles.slice(0, 5).map((worker) => (
+                      <div
+                        key={worker.id}
+                        className="flex items-start gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors cursor-pointer"
+                        onClick={() => navigate(`/profile/worker/${worker.user_id}`)}
+                      >
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={worker.profiles.avatar_url || ''} />
+                          <AvatarFallback>{worker.profiles.full_name?.[0]}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="font-semibold text-foreground text-sm truncate">
+                              {worker.profiles.full_name}
+                            </h4>
+                            {worker.verified && (
+                              <Badge variant="secondary" className="text-xs">Verified</Badge>
+                            )}
+                          </div>
+                          {worker.profiles.location && (
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
+                              <MapPin className="h-3 w-3" />
+                              <span className="truncate">{worker.profiles.location}</span>
+                            </div>
+                          )}
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                            {worker.rating_average && worker.rating_average > 0 && (
+                              <div className="flex items-center gap-1">
+                                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                                <span>{worker.rating_average.toFixed(1)}</span>
+                              </div>
+                            )}
+                            {worker.total_jobs_completed !== null && (
+                              <span>{worker.total_jobs_completed} jobs</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    <Button 
+                      onClick={() => navigate('/browse')} 
+                      variant="outline" 
+                      className="w-full mt-2"
+                    >
+                      View All Workers
+                    </Button>
                   </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-secondary rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Job posted successfully</p>
-                    <p className="text-xs text-muted-foreground">Mobile App Development • 5 days ago</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-accent rounded-full mt-2"></div>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">Profile viewed</p>
-                    <p className="text-xs text-muted-foreground">By 3 potential candidates • 1 week ago</p>
-                  </div>
-                </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No workers available yet</p>
+                )}
               </CardContent>
             </Card>
 
