@@ -2,10 +2,79 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Navigation } from "@/components/layout/Navigation";
-import { Users, Briefcase, Star, ArrowRight, CheckCircle, Wrench, Zap, Hammer, BookOpen, Home, Shield } from "lucide-react";
+import { Users, Briefcase, Star, ArrowRight, CheckCircle, Wrench, Zap, Hammer, BookOpen, Home, Shield, Search } from "lucide-react";
 import heroImage from "@/assets/hero-image-local-connect.jpg";
+import { useAuth } from "@/hooks/useAuth";
+import { useJobs } from "@/hooks/useJobs";
+import { JobCard } from "@/components/jobs/JobCard";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Landing() {
+  const { user } = useAuth();
+  const [isWorker, setIsWorker] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const { data: jobs = [], isLoading: jobsLoading } = useJobs({});
+
+  useEffect(() => {
+    const checkUserRole = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      const { data: roles } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id);
+
+      if (roles && roles.length > 0) {
+        setIsWorker(roles[0].role === 'worker');
+      }
+      setLoading(false);
+    };
+
+    checkUserRole();
+  }, [user]);
+
+  // Show jobs view for logged-in workers
+  if (user && isWorker && !loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Available Jobs</h1>
+            <p className="text-muted-foreground">
+              Browse and apply to local service opportunities
+            </p>
+          </div>
+
+          {jobsLoading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading jobs...</p>
+            </div>
+          ) : jobs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {jobs.map((job) => (
+                <JobCard key={job.id} job={job} />
+              ))}
+            </div>
+          ) : (
+            <Card className="bg-gradient-card border-card-border">
+              <CardContent className="text-center py-12">
+                <Search className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+                <p className="text-muted-foreground mb-4">No jobs available at the moment</p>
+                <p className="text-sm text-muted-foreground">Check back later for new opportunities</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   const categories = [
     { icon: <Zap className="h-8 w-8" />, name: "Electrician", jobs: "120+ jobs" },
     { icon: <Wrench className="h-8 w-8" />, name: "Plumber", jobs: "85+ jobs" },
