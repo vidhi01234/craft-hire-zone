@@ -59,9 +59,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const role = roles[0].role;
       if (role === 'job_giver') {
         navigate('/dashboard/job-giver');
-      } else if (role === 'worker') {
-        navigate('/dashboard');
       }
+      // Workers stay on home page to see available jobs
     }
   };
 
