@@ -1,20 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Navigation } from "@/components/layout/Navigation";
-import { Users, Briefcase, Star, ArrowRight, CheckCircle, Wrench, Zap, Hammer, BookOpen, Home, Shield, Search } from "lucide-react";
+import { Users, Briefcase, Star, ArrowRight, CheckCircle, Wrench, Zap, Hammer, BookOpen, Home, Shield, Search, MapPin } from "lucide-react";
 import heroImage from "@/assets/hero-image-local-connect.jpg";
 import { useAuth } from "@/hooks/useAuth";
 import { useJobs } from "@/hooks/useJobs";
 import { JobCard } from "@/components/jobs/JobCard";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useWorkerProfiles } from "@/hooks/useWorkerProfiles";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 export default function Landing() {
   const { user } = useAuth();
-  const [isWorker, setIsWorker] = useState(false);
+  const navigate = useNavigate();
+  const [userRole, setUserRole] = useState<'worker' | 'job_giver' | null>(null);
   const [loading, setLoading] = useState(true);
   const { data: jobs = [], isLoading: jobsLoading } = useJobs({});
+  const { data: workers = [], isLoading: workersLoading } = useWorkerProfiles();
 
   useEffect(() => {
     const checkUserRole = async () => {
@@ -29,7 +34,7 @@ export default function Landing() {
         .eq('user_id', user.id);
 
       if (roles && roles.length > 0) {
-        setIsWorker(roles[0].role === 'worker');
+        setUserRole(roles[0].role as 'worker' | 'job_giver');
       }
       setLoading(false);
     };
@@ -38,7 +43,7 @@ export default function Landing() {
   }, [user]);
 
   // Show jobs view for logged-in workers
-  if (user && isWorker && !loading) {
+  if (user && userRole === 'worker' && !loading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -67,6 +72,111 @@ export default function Landing() {
                 <Search className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground mb-4">No jobs available at the moment</p>
                 <p className="text-sm text-muted-foreground">Check back later for new opportunities</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Show worker profiles for logged-in job givers
+  if (user && userRole === 'job_giver' && !loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Available Workers</h1>
+            <p className="text-muted-foreground">
+              Browse and connect with verified local service providers
+            </p>
+          </div>
+
+          {workersLoading ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading workers...</p>
+            </div>
+          ) : workers.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {workers.map((worker) => (
+                <Card 
+                  key={worker.id} 
+                  className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth cursor-pointer"
+                  onClick={() => navigate(`/worker/${worker.user_id}`)}
+                >
+                  <CardHeader>
+                    <div className="flex items-start gap-4">
+                      <Avatar className="h-16 w-16">
+                        <AvatarImage src={worker.profiles.avatar_url || undefined} />
+                        <AvatarFallback>{worker.profiles.full_name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <CardTitle className="text-lg mb-1 flex items-center gap-2">
+                          {worker.profiles.full_name}
+                          {worker.verified && (
+                            <Badge variant="secondary" className="text-xs">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Verified
+                            </Badge>
+                          )}
+                        </CardTitle>
+                        {worker.profiles.location && (
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <MapPin className="h-3 w-3 mr-1" />
+                            {worker.profiles.location}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {worker.categories.slice(0, 3).map((category, idx) => (
+                        <Badge key={idx} variant="outline">{category}</Badge>
+                      ))}
+                      {worker.categories.length > 3 && (
+                        <Badge variant="outline">+{worker.categories.length - 3}</Badge>
+                      )}
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-4 text-center text-sm">
+                      <div>
+                        <div className="font-semibold text-primary">
+                          {worker.rating_average ? `${Number(worker.rating_average).toFixed(1)}⭐` : 'N/A'}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Rating</div>
+                      </div>
+                      <div>
+                        <div className="font-semibold text-secondary">
+                          {worker.total_jobs_completed || 0}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Jobs</div>
+                      </div>
+                      <div>
+                        <div className="font-semibold text-accent">
+                          ₹{worker.hourly_rate || 'N/A'}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Per Hour</div>
+                      </div>
+                    </div>
+                    
+                    {worker.profiles.bio && (
+                      <p className="text-sm text-muted-foreground mt-4 line-clamp-2">
+                        {worker.profiles.bio}
+                      </p>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="bg-gradient-card border-card-border">
+              <CardContent className="text-center py-12">
+                <Users className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
+                <p className="text-muted-foreground mb-4">No workers available at the moment</p>
+                <p className="text-sm text-muted-foreground">Check back later for new service providers</p>
               </CardContent>
             </Card>
           )}
