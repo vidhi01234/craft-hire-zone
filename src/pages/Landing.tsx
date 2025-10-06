@@ -104,7 +104,7 @@ export default function Landing() {
                 <Card 
                   key={worker.id} 
                   className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth cursor-pointer"
-                  onClick={() => navigate(`/worker/${worker.user_id}`)}
+                  onClick={() => navigate(`/profile/worker/${worker.user_id}`)}
                 >
                   <CardHeader>
                     <div className="flex items-start gap-4">
