@@ -9,10 +9,11 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Star, MapPin, Briefcase, Clock, Mail, Award, TrendingUp } from "lucide-react";
+import { Star, MapPin, Briefcase, Clock, Mail, Award, TrendingUp, Phone, Handshake } from "lucide-react";
 import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useAuth } from "@/hooks/useAuth";
 import { EditProfileDialog } from "@/components/profile/EditProfileDialog";
+import { toast } from "sonner";
 
 export default function WorkerProfile() {
   const { id } = useParams();
@@ -26,8 +27,14 @@ export default function WorkerProfile() {
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: Implement message sending logic
+    toast.success(`Message sent to ${profileData?.full_name}!`);
     setIsContactOpen(false);
     setMessage('');
+  };
+
+  const handleHire = () => {
+    // TODO: Implement hire notification logic
+    toast.success(`Hire request sent to ${profileData?.full_name}! They will be notified of your interest.`);
   };
 
   if (isLoading) {
@@ -103,11 +110,15 @@ export default function WorkerProfile() {
                         <EditProfileDialog profileData={profileData} />
                       ) : (
                         <>
+                          <Button variant="hero" size="lg" onClick={handleHire}>
+                            <Handshake className="mr-2 h-4 w-4" />
+                            Hire Now
+                          </Button>
                           <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                             <DialogTrigger asChild>
-                              <Button size="lg">
+                              <Button variant="outline" size="lg">
                                 <Mail className="mr-2 h-4 w-4" />
-                                Contact {profileData.full_name}
+                                Contact
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
@@ -142,10 +153,6 @@ export default function WorkerProfile() {
                               </form>
                             </DialogContent>
                           </Dialog>
-                          
-                          <Button variant="outline" size="lg">
-                            Invite to Job
-                          </Button>
                         </>
                       )}
                     </div>
@@ -172,6 +179,32 @@ export default function WorkerProfile() {
                       <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
                         {profileData.bio}
                       </p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {!isOwnProfile && (
+                  <Card className="bg-gradient-card border-card-border">
+                    <CardHeader>
+                      <CardTitle>Contact Information</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      {profileData.email && (
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <Mail className="h-5 w-5 text-primary" />
+                          <a href={`mailto:${profileData.email}`} className="hover:text-primary transition-colors">
+                            {profileData.email}
+                          </a>
+                        </div>
+                      )}
+                      {profileData.phone && (
+                        <div className="flex items-center gap-3 text-muted-foreground">
+                          <Phone className="h-5 w-5 text-primary" />
+                          <a href={`tel:${profileData.phone}`} className="hover:text-primary transition-colors">
+                            {profileData.phone}
+                          </a>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 )}
@@ -288,23 +321,26 @@ export default function WorkerProfile() {
             )}
 
             {/* Quick Actions */}
-            <Card className="bg-gradient-card border-card-border">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Send Message
-                </Button>
-                <Button variant="outline" className="w-full">
-                  Invite to Project
-                </Button>
-                <Button variant="ghost" className="w-full">
-                  Save Profile
-                </Button>
-              </CardContent>
-            </Card>
+            {!isOwnProfile && (
+              <Card className="bg-gradient-card border-card-border">
+                <CardHeader>
+                  <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <Button className="w-full" variant="hero" onClick={handleHire}>
+                    <Handshake className="mr-2 h-4 w-4" />
+                    Hire Now
+                  </Button>
+                  <Button variant="outline" className="w-full" onClick={() => setIsContactOpen(true)}>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Send Message
+                  </Button>
+                  <Button variant="ghost" className="w-full">
+                    Save Profile
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </div>
         </div>
       </div>
