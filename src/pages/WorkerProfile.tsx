@@ -13,6 +13,7 @@ import { Star, MapPin, Briefcase, Clock, Mail, Award, TrendingUp, Phone, Handsha
 import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useAuth } from "@/hooks/useAuth";
 import { EditProfileDialog } from "@/components/profile/EditProfileDialog";
+import { DeleteProfileDialog } from "@/components/profile/DeleteProfileDialog";
 import { toast } from "sonner";
 
 export default function WorkerProfile() {
@@ -107,7 +108,10 @@ export default function WorkerProfile() {
                     
                     <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                       {isOwnProfile ? (
-                        <EditProfileDialog profileData={profileData} />
+                        <>
+                          <EditProfileDialog profileData={profileData} />
+                          <DeleteProfileDialog />
+                        </>
                       ) : (
                         <>
                           <Button variant="hero" size="lg" onClick={handleHire}>
