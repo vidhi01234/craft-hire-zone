@@ -24,8 +24,8 @@ export function DeleteProfileDialog() {
     try {
       setIsDeleting(true);
 
-      // Delete the user account - this will cascade delete all related data
-      const { error } = await supabase.rpc('delete_user');
+      // Call the database function to delete the user account
+      const { error } = await supabase.rpc('delete_user' as any);
       
       if (error) throw error;
 
