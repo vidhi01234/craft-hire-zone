@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Navigation } from "@/components/layout/Navigation";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { User, Briefcase, Clock, Star, Search, CheckCircle, XCircle, AlertCircle } from "lucide-react";
+import { Briefcase, Clock, Star, Search, CheckCircle, XCircle, AlertCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useWorkerApplications, useWithdrawApplication } from "@/hooks/useWorkerApplications";
@@ -251,49 +251,6 @@ export default function WorkerDashboard() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Worker Stats */}
-            <Card className="bg-gradient-card border-card-border">
-              <CardHeader>
-                <CardTitle>Your Profile Stats</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Rating</span>
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="font-semibold">
-                      {profile?.workerProfile?.rating_average?.toFixed(1) || '0.0'}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Jobs Completed</span>
-                  <span className="font-semibold">
-                    {profile?.workerProfile?.total_jobs_completed || 0}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Experience</span>
-                  <span className="font-semibold">
-                    {profile?.workerProfile?.experience_years || 0} years
-                  </span>
-                </div>
-                {profile?.workerProfile?.categories && profile.workerProfile.categories.length > 0 && (
-                  <div>
-                    <span className="text-sm text-muted-foreground mb-2 block">Skills</span>
-                    <div className="flex flex-wrap gap-2">
-                      {profile.workerProfile.categories.map((category, idx) => (
-                        <Badge key={idx} variant="secondary">{category}</Badge>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                <Button asChild className="w-full" variant="outline">
-                  <Link to="/profile/worker">Edit Profile</Link>
-                </Button>
-              </CardContent>
-            </Card>
-
             {/* Application Summary */}
             <Card className="bg-gradient-card border-card-border">
               <CardHeader>
