@@ -228,7 +228,7 @@ export default function JobDetail() {
                 )}
 
                 <Button asChild variant="outline" className="w-full">
-                  <Link to={`/client/${job.posted_by}`}>
+                  <Link to={`/profile/client/${job.posted_by}`}>
                     View Client Profile
                   </Link>
                 </Button>
