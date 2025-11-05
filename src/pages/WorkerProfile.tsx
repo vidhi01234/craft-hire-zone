@@ -14,6 +14,7 @@ import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useAuth } from "@/hooks/useAuth";
 import { EditProfileDialog } from "@/components/profile/EditProfileDialog";
 import { DeleteProfileDialog } from "@/components/profile/DeleteProfileDialog";
+import { ReviewsList } from "@/components/reviews/ReviewsList";
 import { toast } from "sonner";
 
 export default function WorkerProfile() {
@@ -232,8 +233,11 @@ export default function WorkerProfile() {
 
               <TabsContent value="reviews" className="space-y-6">
                 <Card className="bg-gradient-card border-card-border">
-                  <CardContent className="p-6">
-                    <p className="text-muted-foreground text-center">No reviews yet</p>
+                  <CardHeader>
+                    <CardTitle>Reviews</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ReviewsList workerId={id || user?.id || ''} />
                   </CardContent>
                 </Card>
               </TabsContent>

@@ -2,9 +2,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Mail, MapPin, Clock } from "lucide-react";
+import { Check, X, Mail, MapPin, Clock, Star } from "lucide-react";
 import { useMyJobApplications, useUpdateApplicationStatus, Application } from "@/hooks/useApplications";
 import { Link } from "react-router-dom";
+import { ReviewDialog } from "@/components/reviews/ReviewDialog";
 
 export const ApplicationsList = () => {
   const { data: applications = [], isLoading } = useMyJobApplications();
@@ -137,7 +138,7 @@ const ApplicationCard = ({ application, onAccept, onReject, showActions = true }
   return (
     <div className="border border-border rounded-lg p-4 hover:border-primary/50 transition-colors">
       <div className="flex items-start gap-4">
-        <Link to={`/worker/${application.worker_id}`}>
+        <Link to={`/profile/worker/${application.worker_id}`}>
           <Avatar className="h-12 w-12">
             <AvatarImage src={application.profiles.avatar_url} />
             <AvatarFallback>
@@ -149,7 +150,7 @@ const ApplicationCard = ({ application, onAccept, onReject, showActions = true }
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
             <div>
-              <Link to={`/worker/${application.worker_id}`} className="font-semibold text-foreground hover:text-primary">
+              <Link to={`/profile/worker/${application.worker_id}`} className="font-semibold text-foreground hover:text-primary">
                 {application.profiles.full_name}
               </Link>
               <p className="text-sm text-muted-foreground">Applied for: {application.jobs.title}</p>
@@ -216,6 +217,22 @@ const ApplicationCard = ({ application, onAccept, onReject, showActions = true }
                 <X className="h-4 w-4 mr-1" />
                 Reject
               </Button>
+            </div>
+          )}
+
+          {application.status === 'accepted' && (
+            <div className="mt-3">
+              <ReviewDialog 
+                jobId={application.job_id}
+                workerId={application.worker_id}
+                workerName={application.profiles.full_name}
+                trigger={
+                  <Button size="sm" variant="outline">
+                    <Star className="h-4 w-4 mr-1" />
+                    Leave Review
+                  </Button>
+                }
+              />
             </div>
           )}
         </div>
