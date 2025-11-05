@@ -166,9 +166,8 @@ export default function WorkerProfile() {
             </Card>
 
             <Tabs defaultValue="about" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="about">About</TabsTrigger>
-                <TabsTrigger value="portfolio">Portfolio</TabsTrigger>
                 <TabsTrigger value="reviews">Reviews</TabsTrigger>
                 <TabsTrigger value="experience">Experience</TabsTrigger>
               </TabsList>
@@ -229,14 +228,6 @@ export default function WorkerProfile() {
                     </CardContent>
                   </Card>
                 )}
-              </TabsContent>
-
-              <TabsContent value="portfolio" className="space-y-6">
-                <Card className="bg-gradient-card border-card-border">
-                  <CardContent className="p-6">
-                    <p className="text-muted-foreground text-center">Portfolio items coming soon</p>
-                  </CardContent>
-                </Card>
               </TabsContent>
 
               <TabsContent value="reviews" className="space-y-6">
