@@ -101,8 +101,10 @@ export function JobCard({ job, showApplyButton = false, showManageButton = false
           </Button>
           
           {showApplyButton && (
-            <Button className="flex-1 hover-scale text-sm">
-              Apply Now
+            <Button asChild className="flex-1 hover-scale text-sm">
+              <Link to={`/jobs/${job.id}`}>
+                Apply Now
+              </Link>
             </Button>
           )}
           
