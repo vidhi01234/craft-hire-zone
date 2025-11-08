@@ -23,6 +23,9 @@ export interface Application {
     email?: string;
     phone?: string;
   };
+  worker_profiles?: {
+    verified: boolean | null;
+  };
 }
 
 export const useMyJobApplications = () => {
@@ -44,7 +47,7 @@ export const useMyJobApplications = () => {
       const jobIds = myJobs.map(job => job.id);
 
       // Then get all applications for those jobs
-      const { data, error } = await supabase
+      const { data: applicationsData, error } = await supabase
         .from('applications')
         .select(`
           *,
@@ -55,7 +58,24 @@ export const useMyJobApplications = () => {
         .order('applied_at', { ascending: false });
 
       if (error) throw error;
-      return data as Application[];
+      if (!applicationsData) return [];
+
+      // Get unique worker IDs
+      const workerIds = [...new Set(applicationsData.map(app => app.worker_id))];
+
+      // Fetch worker profiles for all workers
+      const { data: workerProfiles } = await supabase
+        .from('worker_profiles')
+        .select('user_id, verified')
+        .in('user_id', workerIds);
+
+      // Map worker profiles to applications
+      const applicationsWithProfiles = applicationsData.map(app => ({
+        ...app,
+        worker_profiles: workerProfiles?.find(wp => wp.user_id === app.worker_id) || null,
+      }));
+
+      return applicationsWithProfiles as Application[];
     },
   });
 };

@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, DollarSign, Clock, User } from "lucide-react";
 import { Job } from "@/hooks/useJobs";
+import { VerifiedBadge } from "@/components/profile/VerifiedBadge";
 
 interface JobCardProps {
   job: Job;

@@ -6,6 +6,7 @@ import { Check, X, Mail, MapPin, Clock, Star } from "lucide-react";
 import { useMyJobApplications, useUpdateApplicationStatus, Application } from "@/hooks/useApplications";
 import { Link } from "react-router-dom";
 import { ReviewDialog } from "@/components/reviews/ReviewDialog";
+import { VerifiedBadge } from "@/components/profile/VerifiedBadge";
 
 export const ApplicationsList = () => {
   const { data: applications = [], isLoading } = useMyJobApplications();
@@ -150,9 +151,12 @@ const ApplicationCard = ({ application, onAccept, onReject, showActions = true }
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
             <div>
-              <Link to={`/profile/worker/${application.worker_id}`} className="font-semibold text-foreground hover:text-primary">
-                {application.profiles.full_name}
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link to={`/profile/worker/${application.worker_id}`} className="font-semibold text-foreground hover:text-primary">
+                  {application.profiles.full_name}
+                </Link>
+                <VerifiedBadge verified={application.worker_profiles?.verified} size="sm" />
+              </div>
               <p className="text-sm text-muted-foreground">Applied for: {application.jobs.title}</p>
             </div>
             <Badge className={getStatusColor(application.status)} variant="outline">

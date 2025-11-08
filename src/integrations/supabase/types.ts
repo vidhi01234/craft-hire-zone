@@ -62,6 +62,45 @@ export type Database = {
           },
         ]
       }
+      identity_verifications: {
+        Row: {
+          created_at: string
+          document_type: string
+          document_url: string
+          id: string
+          reviewed_at: string | null
+          reviewer_notes: string | null
+          status: string
+          submitted_at: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          document_type: string
+          document_url: string
+          id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          document_type?: string
+          document_url?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          submitted_at?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       job_images: {
         Row: {
           id: string
@@ -322,10 +361,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      delete_user: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
+      delete_user: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

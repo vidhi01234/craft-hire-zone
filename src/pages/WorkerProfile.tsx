@@ -15,6 +15,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { EditProfileDialog } from "@/components/profile/EditProfileDialog";
 import { DeleteProfileDialog } from "@/components/profile/DeleteProfileDialog";
 import { ReviewsList } from "@/components/reviews/ReviewsList";
+import { IdentityVerification } from "@/components/profile/IdentityVerification";
+import { VerifiedBadge } from "@/components/profile/VerifiedBadge";
 import { toast } from "sonner";
 
 export default function WorkerProfile() {
@@ -81,7 +83,10 @@ export default function WorkerProfile() {
                   </Avatar>
                   
                   <div className="flex-1 text-center md:text-left">
-                    <h1 className="text-3xl font-bold text-foreground mb-2">{profileData.full_name}</h1>
+                    <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
+                      <h1 className="text-3xl font-bold text-foreground">{profileData.full_name}</h1>
+                      <VerifiedBadge verified={workerProfile?.verified} size="lg" />
+                    </div>
                     <p className="text-xl text-muted-foreground mb-4">
                       {workerProfile?.categories?.[0] || 'Worker'}
                     </p>
@@ -167,10 +172,11 @@ export default function WorkerProfile() {
             </Card>
 
             <Tabs defaultValue="about" className="space-y-6">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="about">About</TabsTrigger>
                 <TabsTrigger value="reviews">Reviews</TabsTrigger>
                 <TabsTrigger value="experience">Experience</TabsTrigger>
+                {isOwnProfile && <TabsTrigger value="verification">Verification</TabsTrigger>}
               </TabsList>
 
               <TabsContent value="about" className="space-y-6">
@@ -260,6 +266,12 @@ export default function WorkerProfile() {
                   </CardContent>
                 </Card>
               </TabsContent>
+
+              {isOwnProfile && (
+                <TabsContent value="verification" className="space-y-6">
+                  <IdentityVerification />
+                </TabsContent>
+              )}
             </Tabs>
           </div>
 
