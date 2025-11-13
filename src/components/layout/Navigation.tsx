@@ -14,17 +14,34 @@ export function Navigation() {
   const isMobile = useIsMobile();
   const { user, signOut } = useAuth();
   const [profile, setProfile] = useState<any>(null);
+  const [dashboardPath, setDashboardPath] = useState('/dashboard');
 
   useEffect(() => {
     if (user) {
+      // Fetch profile
       supabase
         .from('profiles')
         .select('full_name, avatar_url')
         .eq('id', user.id)
         .single()
         .then(({ data }) => setProfile(data));
+
+      // Fetch user role to determine dashboard path
+      supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .single()
+        .then(({ data }) => {
+          if (data?.role === 'job_giver') {
+            setDashboardPath('/dashboard/job-giver');
+          } else {
+            setDashboardPath('/dashboard');
+          }
+        });
     } else {
       setProfile(null);
+      setDashboardPath('/dashboard');
     }
   }, [user]);
 
@@ -56,9 +73,9 @@ export function Navigation() {
                   Browse Services
                 </Link>
                 <Link 
-                  to="/dashboard" 
+                  to={dashboardPath} 
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-smooth ${
-                    isActive('/dashboard') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                    isActive(dashboardPath) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   Dashboard
@@ -132,7 +149,7 @@ export function Navigation() {
                     Browse Services
                   </Link>
                   <Link
-                    to="/dashboard"
+                    to={dashboardPath}
                     className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
