@@ -16,8 +16,6 @@ import { ImageUpload } from "@/components/upload/ImageUpload";
 import { useAuth } from "@/hooks/useAuth";
 import { ApplicationsList } from "@/components/applications/ApplicationsList";
 import { useMyJobApplications } from "@/hooks/useApplications";
-import { useWorkerProfiles } from "@/hooks/useWorkerProfiles";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function JobGiverDashboard() {
   const navigate = useNavigate();
@@ -35,7 +33,6 @@ export default function JobGiverDashboard() {
   const { data: jobs = [], isLoading } = useMyJobs();
   const { data: applications = [] } = useMyJobApplications();
   const createJob = useCreateJob();
-  const { data: workerProfiles = [], isLoading: workersLoading } = useWorkerProfiles();
 
   const handlePostJob = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -290,71 +287,6 @@ export default function JobGiverDashboard() {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            <Card className="bg-gradient-card border-card-border">
-              <CardHeader>
-                <CardTitle>Available Workers</CardTitle>
-                <CardDescription>
-                  Browse profiles of workers ready to take on jobs
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {workersLoading ? (
-                  <p className="text-sm text-muted-foreground">Loading workers...</p>
-                ) : workerProfiles.length > 0 ? (
-                  <div className="space-y-4">
-                    {workerProfiles.slice(0, 5).map((worker) => (
-                      <div
-                        key={worker.id}
-                        className="flex items-start gap-3 p-3 rounded-lg bg-background/50 hover:bg-background/80 transition-colors cursor-pointer"
-                        onClick={() => navigate(`/profile/worker/${worker.user_id}`)}
-                      >
-                        <Avatar className="h-12 w-12">
-                          <AvatarImage src={worker.profiles.avatar_url || ''} />
-                          <AvatarFallback>{worker.profiles.full_name?.[0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h4 className="font-semibold text-foreground text-sm truncate">
-                              {worker.profiles.full_name}
-                            </h4>
-                            {worker.verified && (
-                              <Badge variant="secondary" className="text-xs">Verified</Badge>
-                            )}
-                          </div>
-                          {worker.profiles.location && (
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground mb-1">
-                              <MapPin className="h-3 w-3" />
-                              <span className="truncate">{worker.profiles.location}</span>
-                            </div>
-                          )}
-                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                            {worker.rating_average && worker.rating_average > 0 && (
-                              <div className="flex items-center gap-1">
-                                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                                <span>{worker.rating_average.toFixed(1)}</span>
-                              </div>
-                            )}
-                            {worker.total_jobs_completed !== null && (
-                              <span>{worker.total_jobs_completed} jobs</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                    <Button 
-                      onClick={() => navigate('/browse')} 
-                      variant="outline" 
-                      className="w-full mt-2"
-                    >
-                      View All Workers
-                    </Button>
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground">No workers available yet</p>
-                )}
-              </CardContent>
-            </Card>
-
             <Card className="bg-gradient-secondary text-secondary-foreground">
               <CardContent className="p-6">
                 <h3 className="font-semibold mb-2">Boost Your Jobs</h3>
