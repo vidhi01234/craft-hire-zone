@@ -9,7 +9,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Star, MapPin, Briefcase, Clock, Mail, Award, TrendingUp, Phone, Handshake } from "lucide-react";
+import { Star, MapPin, Briefcase, Clock, Mail, Award, TrendingUp, Phone } from "lucide-react";
 import { useWorkerProfile } from "@/hooks/useWorkerProfile";
 import { useAuth } from "@/hooks/useAuth";
 import { EditProfileDialog } from "@/components/profile/EditProfileDialog";
@@ -36,10 +36,6 @@ export default function WorkerProfile() {
     setMessage('');
   };
 
-  const handleHire = () => {
-    // TODO: Implement hire notification logic
-    toast.success(`Hire request sent to ${profileData?.full_name}! They will be notified of your interest.`);
-  };
 
   if (isLoading) {
     return (
@@ -120,10 +116,6 @@ export default function WorkerProfile() {
                         </>
                       ) : (
                         <>
-                          <Button variant="hero" size="lg" onClick={handleHire}>
-                            <Handshake className="mr-2 h-4 w-4" />
-                            Hire Now
-                          </Button>
                           <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                             <DialogTrigger asChild>
                               <Button variant="outline" size="lg">
@@ -338,10 +330,6 @@ export default function WorkerProfile() {
                   <CardTitle>Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Button className="w-full" variant="hero" onClick={handleHire}>
-                    <Handshake className="mr-2 h-4 w-4" />
-                    Hire Now
-                  </Button>
                   <Button variant="outline" className="w-full" onClick={() => setIsContactOpen(true)}>
                     <Mail className="mr-2 h-4 w-4" />
                     Send Message
