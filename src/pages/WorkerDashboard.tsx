@@ -85,19 +85,12 @@ export default function WorkerDashboard() {
             </p>
           </div>
           
-          <div className="flex gap-3">
-            <Button asChild variant="outline">
-              <Link to="/profile/worker">
-                View Profile
-              </Link>
-            </Button>
-            <Button asChild>
-              <Link to="/browse">
-                <Search className="mr-2 h-4 w-4" />
-                Browse Jobs
-              </Link>
-            </Button>
-          </div>
+          <Button asChild>
+            <Link to="/browse">
+              <Search className="mr-2 h-4 w-4" />
+              Browse Jobs
+            </Link>
+          </Button>
         </div>
 
         {/* Stats */}
