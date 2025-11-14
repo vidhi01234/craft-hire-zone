@@ -65,15 +65,7 @@ export function Navigation() {
             {user && profile ? (
               <>
                 <Link 
-                  to="/browse" 
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-smooth ${
-                    isActive('/browse') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  Browse Services
-                </Link>
-                <Link 
-                  to={dashboardPath} 
+                  to={dashboardPath}
                   className={`px-3 py-2 rounded-md text-sm font-medium transition-smooth ${
                     isActive(dashboardPath) ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
                   }`}
@@ -142,13 +134,6 @@ export function Navigation() {
               {user && profile ? (
                 <>
                   <Link
-                    to="/browse"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Browse Services
-                  </Link>
-                  <Link
                     to={dashboardPath}
                     className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
                     onClick={() => setIsMobileMenuOpen(false)}
@@ -174,13 +159,6 @@ export function Navigation() {
                 </>
               ) : (
                 <>
-                  <Link
-                    to="/browse"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Browse Services
-                  </Link>
                   <Link
                     to="/login"
                     className="block px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground transition-smooth"
