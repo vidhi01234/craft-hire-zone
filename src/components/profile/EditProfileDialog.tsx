@@ -23,6 +23,8 @@ import {
 } from '@/components/ui/select';
 import { Edit } from 'lucide-react';
 import { useUpdateProfile } from '@/hooks/useUpdateProfile';
+import { ImageUpload } from '@/components/upload/ImageUpload';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const profileSchema = z.object({
   full_name: z.string().min(1, 'Name is required').max(100),
@@ -43,6 +45,7 @@ interface EditProfileDialogProps {
     bio?: string;
     location?: string;
     phone?: string;
+    avatar_url?: string;
     workerProfile?: {
       hourly_rate?: number;
       experience_years?: number;
@@ -54,6 +57,7 @@ interface EditProfileDialogProps {
 
 export function EditProfileDialog({ profileData }: EditProfileDialogProps) {
   const [open, setOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState(profileData.avatar_url || '');
   const updateProfile = useUpdateProfile();
 
   const {
@@ -85,6 +89,7 @@ export function EditProfileDialog({ profileData }: EditProfileDialogProps) {
         bio: data.bio || null,
         location: data.location || null,
         phone: data.phone || null,
+        avatar_url: avatarUrl || null,
       },
       workerProfileData: {
         hourly_rate: data.hourly_rate ? parseFloat(data.hourly_rate) : undefined,
@@ -115,6 +120,27 @@ export function EditProfileDialog({ profileData }: EditProfileDialogProps) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Profile Photo Section */}
+          <div className="space-y-2">
+            <Label>Profile Photo</Label>
+            <div className="flex items-start gap-6">
+              <Avatar className="h-24 w-24">
+                <AvatarImage src={avatarUrl} />
+                <AvatarFallback className="text-xl">{profileData.full_name?.[0] || 'U'}</AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                <ImageUpload
+                  bucket="avatars"
+                  onUploadComplete={(url) => setAvatarUrl(url)}
+                  maxSizeMB={2}
+                />
+                <p className="text-xs text-muted-foreground mt-2">
+                  Upload a profile photo (max 2MB)
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="full_name">Full Name *</Label>
             <Input
