@@ -55,6 +55,7 @@ export const useUpdateProfile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['worker-profile'] });
+      queryClient.invalidateQueries({ queryKey: ['client-profile'] });
       toast({
         title: 'Profile updated',
         description: 'Your profile has been updated successfully.',
