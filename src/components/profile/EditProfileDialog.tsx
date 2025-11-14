@@ -60,6 +60,16 @@ export function EditProfileDialog({ profileData }: EditProfileDialogProps) {
   const [avatarUrl, setAvatarUrl] = useState(profileData.avatar_url || '');
   const updateProfile = useUpdateProfile();
 
+  const handleAvatarUpload = async (url: string) => {
+    setAvatarUrl(url);
+    // Auto-save avatar immediately after upload
+    await updateProfile.mutateAsync({
+      profileData: {
+        avatar_url: url,
+      },
+    });
+  };
+
   const {
     register,
     handleSubmit,
@@ -131,11 +141,11 @@ export function EditProfileDialog({ profileData }: EditProfileDialogProps) {
               <div className="flex-1">
                 <ImageUpload
                   bucket="avatars"
-                  onUploadComplete={(url) => setAvatarUrl(url)}
+                  onUploadComplete={handleAvatarUpload}
                   maxSizeMB={2}
                 />
                 <p className="text-xs text-muted-foreground mt-2">
-                  Upload a profile photo (max 2MB)
+                  Upload a profile photo (max 2MB) - Saves automatically
                 </p>
               </div>
             </div>
