@@ -387,25 +387,23 @@ export default function Landing() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-hero">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero" />
+        <div className="blob bg-white/20 w-[400px] h-[400px] -top-20 left-1/4" />
+        <div className="blob bg-accent/40 w-[300px] h-[300px] bottom-0 right-1/4" style={{ animationDelay: "-6s" }} />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">
             Ready to get started?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-xl mb-10 opacity-90 max-w-2xl mx-auto">
             Join Local Connect today and get trusted household services at your doorstep.
           </p>
-          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="xl" className="bg-accent hover:bg-accent-light shadow-brand-lg">
-              <Link to="/signup">
-                Get Started
-              </Link>
+            <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90 shadow-brand-xl hover:scale-105 transition-bounce">
+              <Link to="/signup">Get Started <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
-            <Button asChild size="xl" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
-              <Link to="/browse">
-                Browse Services
-              </Link>
+            <Button asChild size="xl" variant="outline" className="glass border-white/30 text-white hover:bg-white/10">
+              <Link to="/browse">Browse Services</Link>
             </Button>
           </div>
         </div>
