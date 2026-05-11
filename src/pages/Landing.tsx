@@ -67,7 +67,7 @@ export default function Landing() {
               ))}
             </div>
           ) : (
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardContent className="text-center py-12">
                 <Search className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground mb-4">No jobs available at the moment</p>
@@ -103,7 +103,7 @@ export default function Landing() {
               {workers.map((worker) => (
                 <Card 
                   key={worker.id} 
-                  className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth cursor-pointer"
+                  className="glass border-card-border/60 hover:shadow-brand-lg transition-smooth cursor-pointer"
                   onClick={() => navigate(`/profile/worker/${worker.user_id}`)}
                 >
                   <CardHeader>
@@ -172,7 +172,7 @@ export default function Landing() {
               ))}
             </div>
           ) : (
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardContent className="text-center py-12">
                 <Users className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground mb-4">No workers available at the moment</p>

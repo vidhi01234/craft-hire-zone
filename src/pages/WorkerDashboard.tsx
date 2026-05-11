@@ -73,7 +73,7 @@ export default function WorkerDashboard() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* My Applications */}
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   My Applications
@@ -164,7 +164,7 @@ export default function WorkerDashboard() {
             </Card>
 
             {/* Available Jobs */}
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle>Available Jobs</CardTitle>
                 <CardDescription>
@@ -195,7 +195,7 @@ export default function WorkerDashboard() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Application Summary */}
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle>Application Summary</CardTitle>
               </CardHeader>

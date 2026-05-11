@@ -213,7 +213,7 @@ export default function JobGiverDashboard() {
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
-            <Card key={index} className="bg-gradient-card border-card-border">
+            <Card key={index} className="glass border-card-border/60">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
@@ -244,7 +244,7 @@ export default function JobGiverDashboard() {
         {/* My Jobs */}
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   My Posted Jobs

@@ -184,7 +184,7 @@ export default function BrowseJobs() {
           {/* Desktop Filters Sidebar */}
           {!isMobile && (
             <div className="lg:col-span-1">
-              <Card className="bg-gradient-card border-card-border sticky top-24">
+              <Card className="glass border-card-border/60 sticky top-24">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Filter className="h-5 w-5" />
@@ -287,7 +287,7 @@ export default function BrowseJobs() {
                 ))}
               </div>
             ) : (
-              <Card className="bg-gradient-card border-card-border text-center py-8 sm:py-12">
+              <Card className="glass border-card-border/60 text-center py-8 sm:py-12">
                 <CardContent>
                   <Search className="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground mb-4" />
                   <h3 className="text-base sm:text-lg font-medium text-foreground mb-2">
