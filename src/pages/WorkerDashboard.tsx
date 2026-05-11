@@ -22,32 +22,7 @@ export default function WorkerDashboard() {
   const acceptedApplications = applications.filter(app => app.status === 'accepted');
   const rejectedApplications = applications.filter(app => app.status === 'rejected');
 
-  const stats = [
-    {
-      title: "Total Applications",
-      value: applications.length.toString(),
-      icon: <Briefcase className="h-5 w-5" />,
-      description: "All time",
-    },
-    {
-      title: "Pending",
-      value: pendingApplications.length.toString(),
-      icon: <Clock className="h-5 w-5" />,
-      description: "Awaiting response",
-    },
-    {
-      title: "Accepted",
-      value: acceptedApplications.length.toString(),
-      icon: <CheckCircle className="h-5 w-5" />,
-      description: "Jobs secured",
-    },
-    {
-      title: "Average Rating",
-      value: profile?.workerProfile?.rating_average?.toFixed(1) || "0.0",
-      icon: <Star className="h-5 w-5" />,
-      description: "Your rating",
-    },
-  ];
+  // Stat boxes intentionally removed (UI minimalism preference).
 
   const getStatusBadge = (status: string) => {
     switch (status) {
