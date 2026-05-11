@@ -66,32 +66,7 @@ export default function JobGiverDashboard() {
   const pendingApplications = applications.filter(app => app.status === 'pending').length;
   const acceptedApplications = applications.filter(app => app.status === 'accepted').length;
 
-  const stats = [
-    {
-      title: "Active Jobs",
-      value: activeJobs.toString(),
-      icon: <Briefcase className="h-5 w-5" />,
-      description: "Currently posted",
-    },
-    {
-      title: "Total Applications",
-      value: totalApplications.toString(),
-      icon: <Users className="h-5 w-5" />,
-      description: "Across all jobs",
-    },
-    {
-      title: "Pending Review",
-      value: pendingApplications.toString(),
-      icon: <Eye className="h-5 w-5" />,
-      description: "Awaiting response",
-    },
-    {
-      title: "Accepted",
-      value: acceptedApplications.toString(),
-      icon: <TrendingUp className="h-5 w-5" />,
-      description: "Applications approved",
-    },
-  ];
+  // Stat boxes intentionally removed (UI minimalism preference).
 
   return (
     <div className="min-h-screen bg-background">
