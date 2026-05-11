@@ -359,27 +359,28 @@ export default function Landing() {
             </div>
             
             <div className="lg:order-first">
-              <Card className="bg-gradient-primary p-1">
-                <div className="bg-background rounded-lg p-8">
-                  <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-hero rounded-3xl blur-2xl opacity-40 animate-pulse-glow" />
+                <div className="relative glass-strong rounded-3xl p-8 glow-primary">
+                  <h3 className="text-2xl font-heading font-bold mb-6 text-center">
                     Trusted by households across India
                   </h3>
                   <div className="grid grid-cols-3 gap-6 text-center">
-                    <div>
-                      <div className="text-3xl font-bold text-primary">15K+</div>
-                      <div className="text-sm text-muted-foreground">Service Providers</div>
+                    <div className="hover-scale">
+                      <div className="text-4xl font-bold text-gradient">15K+</div>
+                      <div className="text-sm text-muted-foreground mt-1">Service Providers</div>
                     </div>
-                    <div>
-                      <div className="text-3xl font-bold text-secondary">50K+</div>
-                      <div className="text-sm text-muted-foreground">Services Completed</div>
+                    <div className="hover-scale">
+                      <div className="text-4xl font-bold text-gradient">50K+</div>
+                      <div className="text-sm text-muted-foreground mt-1">Services Done</div>
                     </div>
-                    <div>
-                      <div className="text-3xl font-bold text-accent">4.8⭐</div>
-                      <div className="text-sm text-muted-foreground">Average Rating</div>
+                    <div className="hover-scale">
+                      <div className="text-4xl font-bold text-gradient">4.8★</div>
+                      <div className="text-sm text-muted-foreground mt-1">Avg. Rating</div>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             </div>
           </div>
         </div>
