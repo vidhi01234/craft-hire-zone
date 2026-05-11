@@ -55,6 +55,11 @@
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
     --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(220 14% 98%));
+    --gradient-mesh: radial-gradient(at 20% 20%, hsl(var(--primary) / 0.18) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(var(--accent) / 0.15) 0px, transparent 50%),
+                     radial-gradient(at 0% 80%, hsl(var(--secondary) / 0.18) 0px, transparent 50%),
+                     radial-gradient(at 80% 80%, hsl(var(--primary-light) / 0.15) 0px, transparent 50%);
+    --gradient-glow: conic-gradient(from 180deg at 50% 50%, hsl(var(--primary)) 0deg, hsl(var(--accent)) 120deg, hsl(var(--secondary)) 240deg, hsl(var(--primary)) 360deg);
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 hsl(var(--primary) / 0.05);
