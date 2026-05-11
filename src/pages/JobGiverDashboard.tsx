@@ -66,32 +66,7 @@ export default function JobGiverDashboard() {
   const pendingApplications = applications.filter(app => app.status === 'pending').length;
   const acceptedApplications = applications.filter(app => app.status === 'accepted').length;
 
-  const stats = [
-    {
-      title: "Active Jobs",
-      value: activeJobs.toString(),
-      icon: <Briefcase className="h-5 w-5" />,
-      description: "Currently posted",
-    },
-    {
-      title: "Total Applications",
-      value: totalApplications.toString(),
-      icon: <Users className="h-5 w-5" />,
-      description: "Across all jobs",
-    },
-    {
-      title: "Pending Review",
-      value: pendingApplications.toString(),
-      icon: <Eye className="h-5 w-5" />,
-      description: "Awaiting response",
-    },
-    {
-      title: "Accepted",
-      value: acceptedApplications.toString(),
-      icon: <TrendingUp className="h-5 w-5" />,
-      description: "Applications approved",
-    },
-  ];
+  // Stat boxes intentionally removed (UI minimalism preference).
 
   return (
     <div className="min-h-screen bg-background">
@@ -210,31 +185,6 @@ export default function JobGiverDashboard() {
           </Dialog>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <Card key={index} className="bg-gradient-card border-card-border">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold text-foreground">
-                      {stat.value}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {stat.description}
-                    </p>
-                  </div>
-                  <div className="text-primary">
-                    {stat.icon}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
         {/* Applications */}
         <div className="mb-8">
@@ -244,7 +194,7 @@ export default function JobGiverDashboard() {
         {/* My Jobs */}
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   My Posted Jobs

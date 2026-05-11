@@ -67,7 +67,7 @@ export default function Landing() {
               ))}
             </div>
           ) : (
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardContent className="text-center py-12">
                 <Search className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground mb-4">No jobs available at the moment</p>
@@ -103,7 +103,7 @@ export default function Landing() {
               {workers.map((worker) => (
                 <Card 
                   key={worker.id} 
-                  className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth cursor-pointer"
+                  className="glass border-card-border/60 hover:shadow-brand-lg transition-smooth cursor-pointer"
                   onClick={() => navigate(`/profile/worker/${worker.user_id}`)}
                 >
                   <CardHeader>
@@ -172,7 +172,7 @@ export default function Landing() {
               ))}
             </div>
           ) : (
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardContent className="text-center py-12">
                 <Users className="mx-auto h-12 w-12 text-muted-foreground mb-3" />
                 <p className="text-muted-foreground mb-4">No workers available at the moment</p>
@@ -226,32 +226,37 @@ export default function Landing() {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        ></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            <span className="text-white">Local</span>{" "}
-            <span className="text-accent">Connect</span>
+      <section className="relative py-24 lg:py-36 overflow-hidden bg-gradient-mesh">
+        {/* Floating blobs */}
+        <div className="blob bg-primary/40 w-[420px] h-[420px] -top-20 -left-20" />
+        <div className="blob bg-accent/40 w-[380px] h-[380px] top-10 right-0" style={{ animationDelay: "-4s" }} />
+        <div className="blob bg-secondary/30 w-[340px] h-[340px] bottom-0 left-1/3" style={{ animationDelay: "-8s" }} />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-6 animate-fade-in">
+            <span className="h-2 w-2 rounded-full bg-success animate-pulse-glow" />
+            <span className="text-sm font-medium text-foreground/80">Trusted by 15,000+ households across India</span>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight animate-fade-in">
+            <span className="text-foreground">Local</span>{" "}
+            <span className="text-gradient">Connect</span>
           </h1>
-          <p className="text-xl md:text-2xl mb-4 max-w-3xl mx-auto opacity-90">
+          <p className="text-xl md:text-2xl mb-4 max-w-3xl mx-auto text-foreground/80 animate-fade-in" style={{ animationDelay: "100ms" }}>
             Connecting people with trusted local services
           </p>
-          <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-80">
-            Find reliable household service providers in your area - from electricians and plumbers to tutors and house help.
+          <p className="text-base md:text-lg mb-10 max-w-2xl mx-auto text-muted-foreground animate-fade-in" style={{ animationDelay: "200ms" }}>
+            Find reliable household service providers in your area — from electricians and plumbers to tutors and house help.
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button asChild size="xl" className="min-w-48 bg-accent hover:bg-accent-light shadow-brand-lg">
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{ animationDelay: "300ms" }}>
+            <Button asChild size="xl" variant="hero" className="min-w-52 animate-pulse-glow">
               <Link to="/signup?role=job_giver">
                 I Need a Service
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button asChild size="xl" variant="outline" className="min-w-48 bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
+            <Button asChild size="xl" variant="outline" className="min-w-52 glass hover:bg-card/80">
               <Link to="/signup?role=worker">
                 I Offer a Service
                 <ArrowRight className="ml-2 h-5 w-5" />
@@ -262,27 +267,31 @@ export default function Landing() {
       </section>
 
       {/* Categories Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Popular Household Services
+      <section className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-mesh opacity-40" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 animate-fade-in">
+            <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4">
+              Popular <span className="text-gradient">Services</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Find trusted local service providers for all your household needs
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5">
             {categories.map((category, index) => (
               <Link key={index} to="/browse" className="group">
-                <Card className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth hover:-translate-y-2 text-center p-6">
-                  <div className="mx-auto mb-3 p-3 rounded-full bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-smooth w-fit">
+                <div
+                  className="glass rounded-2xl p-6 text-center transition-smooth hover:-translate-y-2 hover:glow-primary animate-fade-in"
+                  style={{ animationDelay: `${index * 80}ms` }}
+                >
+                  <div className="mx-auto mb-3 p-3 rounded-2xl bg-gradient-primary text-white w-fit shadow-brand-md group-hover:scale-110 group-hover:rotate-6 transition-bounce">
                     {category.icon}
                   </div>
                   <h3 className="font-semibold text-foreground mb-1">{category.name}</h3>
-                  <p className="text-sm text-muted-foreground">{category.jobs}</p>
-                </Card>
+                  <p className="text-xs text-muted-foreground">{category.jobs}</p>
+                </div>
               </Link>
             ))}
           </div>
@@ -293,34 +302,31 @@ export default function Landing() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Why Choose Local Connect?
+            <h2 className="text-3xl md:text-5xl font-heading font-bold mb-4">
+              Why Choose <span className="text-gradient">Local Connect?</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               India's most trusted platform for household services with verified local workers
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="bg-gradient-card border-card-border hover:shadow-brand-lg transition-smooth hover:-translate-y-2">
-                <CardHeader className="text-center pb-4">
-                  <div className="mx-auto mb-4 p-3 rounded-full bg-muted w-fit">
-                    {feature.icon}
-                  </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-center text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <div
+                key={index}
+                className="glass-tint rounded-2xl p-8 transition-smooth hover:-translate-y-2 hover:glow-primary animate-fade-in"
+                style={{ animationDelay: `${index * 120}ms` }}
+              >
+                <div className="mb-5 p-4 rounded-2xl bg-gradient-hero w-fit shadow-brand-md">
+                  <div className="text-white">{feature.icon}</div>
+                </div>
+                <h3 className="text-xl font-heading font-semibold mb-3">{feature.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
-
       {/* Benefits Section */}
       <section className="py-20 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -353,52 +359,51 @@ export default function Landing() {
             </div>
             
             <div className="lg:order-first">
-              <Card className="bg-gradient-primary p-1">
-                <div className="bg-background rounded-lg p-8">
-                  <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-hero rounded-3xl blur-2xl opacity-40 animate-pulse-glow" />
+                <div className="relative glass-strong rounded-3xl p-8 glow-primary">
+                  <h3 className="text-2xl font-heading font-bold mb-6 text-center">
                     Trusted by households across India
                   </h3>
                   <div className="grid grid-cols-3 gap-6 text-center">
-                    <div>
-                      <div className="text-3xl font-bold text-primary">15K+</div>
-                      <div className="text-sm text-muted-foreground">Service Providers</div>
+                    <div className="hover-scale">
+                      <div className="text-4xl font-bold text-gradient">15K+</div>
+                      <div className="text-sm text-muted-foreground mt-1">Service Providers</div>
                     </div>
-                    <div>
-                      <div className="text-3xl font-bold text-secondary">50K+</div>
-                      <div className="text-sm text-muted-foreground">Services Completed</div>
+                    <div className="hover-scale">
+                      <div className="text-4xl font-bold text-gradient">50K+</div>
+                      <div className="text-sm text-muted-foreground mt-1">Services Done</div>
                     </div>
-                    <div>
-                      <div className="text-3xl font-bold text-accent">4.8⭐</div>
-                      <div className="text-sm text-muted-foreground">Average Rating</div>
+                    <div className="hover-scale">
+                      <div className="text-4xl font-bold text-gradient">4.8★</div>
+                      <div className="text-sm text-muted-foreground mt-1">Avg. Rating</div>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-hero">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-hero" />
+        <div className="blob bg-white/20 w-[400px] h-[400px] -top-20 left-1/4" />
+        <div className="blob bg-accent/40 w-[300px] h-[300px] bottom-0 right-1/4" style={{ animationDelay: "-6s" }} />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">
             Ready to get started?
           </h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-xl mb-10 opacity-90 max-w-2xl mx-auto">
             Join Local Connect today and get trusted household services at your doorstep.
           </p>
-          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="xl" className="bg-accent hover:bg-accent-light shadow-brand-lg">
-              <Link to="/signup">
-                Get Started
-              </Link>
+            <Button asChild size="xl" className="bg-white text-primary hover:bg-white/90 shadow-brand-xl hover:scale-105 transition-bounce">
+              <Link to="/signup">Get Started <ArrowRight className="ml-2 h-5 w-5" /></Link>
             </Button>
-            <Button asChild size="xl" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
-              <Link to="/browse">
-                Browse Services
-              </Link>
+            <Button asChild size="xl" variant="outline" className="glass border-white/30 text-white hover:bg-white/10">
+              <Link to="/browse">Browse Services</Link>
             </Button>
           </div>
         </div>

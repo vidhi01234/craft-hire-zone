@@ -22,32 +22,7 @@ export default function WorkerDashboard() {
   const acceptedApplications = applications.filter(app => app.status === 'accepted');
   const rejectedApplications = applications.filter(app => app.status === 'rejected');
 
-  const stats = [
-    {
-      title: "Total Applications",
-      value: applications.length.toString(),
-      icon: <Briefcase className="h-5 w-5" />,
-      description: "All time",
-    },
-    {
-      title: "Pending",
-      value: pendingApplications.length.toString(),
-      icon: <Clock className="h-5 w-5" />,
-      description: "Awaiting response",
-    },
-    {
-      title: "Accepted",
-      value: acceptedApplications.length.toString(),
-      icon: <CheckCircle className="h-5 w-5" />,
-      description: "Jobs secured",
-    },
-    {
-      title: "Average Rating",
-      value: profile?.workerProfile?.rating_average?.toFixed(1) || "0.0",
-      icon: <Star className="h-5 w-5" />,
-      description: "Your rating",
-    },
-  ];
+  // Stat boxes intentionally removed (UI minimalism preference).
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -93,37 +68,12 @@ export default function WorkerDashboard() {
           </Button>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
-            <Card key={index} className="bg-gradient-card border-card-border">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {stat.title}
-                    </p>
-                    <p className="text-2xl font-bold text-foreground">
-                      {stat.value}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {stat.description}
-                    </p>
-                  </div>
-                  <div className="text-primary">
-                    {stat.icon}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             {/* My Applications */}
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   My Applications
@@ -214,7 +164,7 @@ export default function WorkerDashboard() {
             </Card>
 
             {/* Available Jobs */}
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle>Available Jobs</CardTitle>
                 <CardDescription>
@@ -245,7 +195,7 @@ export default function WorkerDashboard() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Application Summary */}
-            <Card className="bg-gradient-card border-card-border">
+            <Card className="glass border-card-border/60">
               <CardHeader>
                 <CardTitle>Application Summary</CardTitle>
               </CardHeader>
