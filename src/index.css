@@ -2,139 +2,126 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Local Connect Design System - Modern Blue & Orange Theme */
+/* Local Connect Design System - Modern Blue & Teal Theme */
 
 @layer base {
   :root {
     /* Core Brand Colors */
-    --background: 0 0% 100%;
-    --foreground: 215 25% 15%;
-    
-    /* Primary Brand - Emerald (#10B981) */
-    --primary: 158 84% 39%;
+    --background: 210 40% 98%;          /* #F8FAFC */
+    --foreground: 222 47% 11%;          /* #0F172A */
+
+    /* Primary - Trust Blue (#2563EB) */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 158 70% 52%;
-    --primary-dark: 160 84% 28%;
-    
-    /* Secondary - Charcoal */
-    --secondary: 215 28% 22%;
+    --primary-light: 217 91% 70%;
+    --primary-dark: 217 91% 50%;
+
+    /* Secondary - Slate */
+    --secondary: 215 19% 35%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 215 22% 35%;
-    
-    /* Accent - Soft Emerald Glow */
-    --accent: 168 76% 42%;
+    --secondary-light: 215 16% 47%;
+
+    /* Accent - Teal (#14B8A6) */
+    --accent: 173 80% 40%;
     --accent-foreground: 0 0% 100%;
-    --accent-light: 168 70% 55%;
-    
+    --accent-light: 173 70% 50%;
+
     /* UI Elements */
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
-    --card-border: 220 13% 91%;
-    
+    --card: 0 0% 100%;                  /* #FFFFFF */
+    --card-foreground: 222 47% 11%;
+    --card-border: 214 32% 91%;         /* #E2E8F0 */
+
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
-    
-    --muted: 220 14% 96%;
+    --popover-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-    
-    --destructive: 0 84% 60%;
+
+    --destructive: 0 84% 60%;           /* #EF4444 */
     --destructive-foreground: 0 0% 100%;
-    
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 210 100% 45%;
-    
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+
     /* Status Colors */
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
-    --info: 200 100% 50%;
-    
+    --success: 142 71% 45%;             /* #22C55E */
+    --warning: 38 92% 50%;              /* #F59E0B */
+    --info: 217 91% 60%;
+
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(220 14% 98%));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(210 40% 98%));
     --gradient-mesh: radial-gradient(at 20% 20%, hsl(var(--primary) / 0.18) 0px, transparent 50%),
-                     radial-gradient(at 80% 0%, hsl(var(--accent) / 0.15) 0px, transparent 50%),
-                     radial-gradient(at 0% 80%, hsl(var(--secondary) / 0.18) 0px, transparent 50%),
-                     radial-gradient(at 80% 80%, hsl(var(--primary-light) / 0.15) 0px, transparent 50%);
+                     radial-gradient(at 80% 0%, hsl(var(--accent) / 0.16) 0px, transparent 50%),
+                     radial-gradient(at 0% 80%, hsl(var(--primary) / 0.12) 0px, transparent 50%),
+                     radial-gradient(at 80% 80%, hsl(var(--accent) / 0.14) 0px, transparent 50%);
     --gradient-glow: conic-gradient(from 180deg at 50% 50%, hsl(var(--primary)) 0deg, hsl(var(--accent)) 120deg, hsl(var(--secondary)) 240deg, hsl(var(--primary)) 360deg);
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 hsl(var(--primary) / 0.05);
-    --shadow-md: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
-    --shadow-lg: 0 10px 15px -3px hsl(var(--primary) / 0.1), 0 4px 6px -2px hsl(var(--primary) / 0.05);
-    --shadow-xl: 0 20px 25px -5px hsl(var(--primary) / 0.1), 0 10px 10px -5px hsl(var(--primary) / 0.04);
-    --shadow-glow: 0 0 20px hsl(var(--primary) / 0.15);
-    
+
+    /* Soft shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(222 47% 11% / 0.04);
+    --shadow-md: 0 4px 12px -2px hsl(222 47% 11% / 0.06), 0 2px 4px -1px hsl(222 47% 11% / 0.04);
+    --shadow-lg: 0 12px 24px -8px hsl(222 47% 11% / 0.08), 0 4px 8px -2px hsl(222 47% 11% / 0.04);
+    --shadow-xl: 0 24px 48px -12px hsl(222 47% 11% / 0.12), 0 8px 16px -4px hsl(222 47% 11% / 0.06);
+    --shadow-glow: 0 0 24px hsl(var(--primary) / 0.18);
+
     /* Animations */
     --transition-fast: all 0.15s ease-out;
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 210 40% 98%;
+    --sidebar-foreground: 215 19% 35%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
-    /* Core Brand Colors - Dark Mode */
-    --background: 215 28% 8%;
-    --foreground: 0 0% 98%;
-    
-    /* Primary Brand - Emerald in dark */
-    --primary: 158 76% 50%;
-    --primary-foreground: 215 28% 8%;
-    --primary-light: 158 70% 62%;
-    --primary-dark: 160 84% 38%;
-    
-    /* Secondary - Light charcoal in dark */
-    --secondary: 215 22% 30%;
-    --secondary-foreground: 0 0% 98%;
-    --secondary-light: 215 18% 45%;
-    
-    /* Accent - Bright teal in dark */
-    --accent: 168 78% 55%;
-    --accent-foreground: 215 28% 8%;
-    --accent-light: 168 70% 65%;
-    
-    /* UI Elements */
-    --card: 215 25% 12%;
-    --card-foreground: 0 0% 98%;
-    --card-border: 215 25% 20%;
-    
-    --popover: 215 25% 12%;
-    --popover-foreground: 0 0% 98%;
-    
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+
+    --primary: 217 91% 65%;
+    --primary-foreground: 222 47% 11%;
+    --primary-light: 217 91% 75%;
+    --primary-dark: 217 91% 55%;
+
+    --secondary: 215 25% 30%;
+    --secondary-foreground: 210 40% 98%;
+    --secondary-light: 215 20% 45%;
+
+    --accent: 173 80% 50%;
+    --accent-foreground: 222 47% 11%;
+    --accent-light: 173 70% 60%;
+
+    --card: 222 47% 12%;
+    --card-foreground: 210 40% 98%;
+    --card-border: 215 25% 22%;
+
+    --popover: 222 47% 12%;
+    --popover-foreground: 210 40% 98%;
+
     --muted: 215 25% 16%;
     --muted-foreground: 215 16% 65%;
-    
+
     --destructive: 0 84% 65%;
     --destructive-foreground: 0 0% 98%;
-    
-    --border: 215 25% 20%;
-    --input: 215 25% 20%;
-    --ring: 210 100% 55%;
-    
-    /* Status Colors - Dark Mode */
-    --success: 142 76% 46%;
+
+    --border: 215 25% 22%;
+    --input: 215 25% 22%;
+    --ring: 217 91% 65%;
+
+    --success: 142 71% 55%;
     --warning: 38 92% 60%;
-    --info: 200 100% 60%;
+    --info: 217 91% 65%;
   }
 }
 
