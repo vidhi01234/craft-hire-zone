@@ -10,21 +10,21 @@
     --background: 0 0% 100%;
     --foreground: 215 25% 15%;
     
-    /* Primary Brand - Trust Blue (#2563EB) */
-    --primary: 217 91% 60%;
+    /* Primary Brand - Emerald (#10B981) */
+    --primary: 158 84% 39%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 217 91% 70%;
-    --primary-dark: 217 91% 50%;
+    --primary-light: 158 70% 52%;
+    --primary-dark: 160 84% 28%;
     
-    /* Secondary - Warm Blue */
-    --secondary: 220 100% 55%;
+    /* Secondary - Charcoal */
+    --secondary: 215 28% 22%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 220 100% 65%;
+    --secondary-light: 215 22% 35%;
     
-    /* Accent - Energy Orange (#FB923C) */
-    --accent: 25 95% 61%;
+    /* Accent - Soft Emerald Glow */
+    --accent: 168 76% 42%;
     --accent-foreground: 0 0% 100%;
-    --accent-light: 25 95% 71%;
+    --accent-light: 168 70% 55%;
     
     /* UI Elements */
     --card: 0 0% 100%;
@@ -97,21 +97,21 @@
     --background: 215 28% 8%;
     --foreground: 0 0% 98%;
     
-    /* Primary Brand - Brighter in dark */
-    --primary: 210 100% 60%;
+    /* Primary Brand - Emerald in dark */
+    --primary: 158 76% 50%;
     --primary-foreground: 215 28% 8%;
-    --primary-light: 210 100% 70%;
-    --primary-dark: 210 100% 50%;
+    --primary-light: 158 70% 62%;
+    --primary-dark: 160 84% 38%;
     
-    /* Secondary - Adjusted for dark */
-    --secondary: 220 100% 60%;
-    --secondary-foreground: 215 28% 8%;
-    --secondary-light: 220 100% 70%;
+    /* Secondary - Light charcoal in dark */
+    --secondary: 215 22% 30%;
+    --secondary-foreground: 0 0% 98%;
+    --secondary-light: 215 18% 45%;
     
-    /* Accent - Warmer in dark */
-    --accent: 25 100% 60%;
+    /* Accent - Bright teal in dark */
+    --accent: 168 78% 55%;
     --accent-foreground: 215 28% 8%;
-    --accent-light: 25 100% 70%;
+    --accent-light: 168 70% 65%;
     
     /* UI Elements */
     --card: 215 25% 12%;

@@ -2,8 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Navigation } from "@/components/layout/Navigation";
-import { Users, Briefcase, Star, ArrowRight, CheckCircle, Wrench, Zap, Hammer, BookOpen, Home, Shield, Search, MapPin } from "lucide-react";
+import { Users, Briefcase, Star, ArrowRight, CheckCircle, Home, Shield, Search, MapPin } from "lucide-react";
 import heroImage from "@/assets/hero-image-local-connect.jpg";
+import catElectrician from "@/assets/cat-electrician.png";
+import catPlumber from "@/assets/cat-plumber.png";
+import catCarpenter from "@/assets/cat-carpenter.png";
+import catCleaning from "@/assets/cat-cleaning.png";
+import catTutor from "@/assets/cat-tutor.png";
+import catCook from "@/assets/cat-cook.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useJobs } from "@/hooks/useJobs";
 import { JobCard } from "@/components/jobs/JobCard";
@@ -186,12 +192,12 @@ export default function Landing() {
   }
 
   const categories = [
-    { icon: <Zap className="h-8 w-8" />, name: "Electrician", jobs: "120+ jobs" },
-    { icon: <Wrench className="h-8 w-8" />, name: "Plumber", jobs: "85+ jobs" },
-    { icon: <Hammer className="h-8 w-8" />, name: "Carpenter", jobs: "95+ jobs" },
-    { icon: <Home className="h-8 w-8" />, name: "House Cleaning", jobs: "200+ jobs" },
-    { icon: <BookOpen className="h-8 w-8" />, name: "Home Tutor", jobs: "150+ jobs" },
-    { icon: <Users className="h-8 w-8" />, name: "Cook/Maid", jobs: "80+ jobs" },
+    { img: catElectrician, name: "Electrician", jobs: "120+ jobs" },
+    { img: catPlumber, name: "Plumber", jobs: "85+ jobs" },
+    { img: catCarpenter, name: "Carpenter", jobs: "95+ jobs" },
+    { img: catCleaning, name: "House Cleaning", jobs: "200+ jobs" },
+    { img: catTutor, name: "Home Tutor", jobs: "150+ jobs" },
+    { img: catCook, name: "Cook/Maid", jobs: "80+ jobs" },
   ];
 
   const features = [
@@ -283,11 +289,18 @@ export default function Landing() {
             {categories.map((category, index) => (
               <Link key={index} to="/browse" className="group">
                 <div
-                  className="glass rounded-2xl p-6 text-center transition-smooth hover:-translate-y-2 hover:glow-primary animate-fade-in"
+                  className="glass rounded-2xl p-5 text-center transition-smooth hover:-translate-y-2 hover:glow-primary animate-fade-in"
                   style={{ animationDelay: `${index * 80}ms` }}
                 >
-                  <div className="mx-auto mb-3 p-3 rounded-2xl bg-gradient-primary text-white w-fit shadow-brand-md group-hover:scale-110 group-hover:rotate-6 transition-bounce">
-                    {category.icon}
+                  <div className="mx-auto mb-3 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-3 transition-bounce">
+                    <img
+                      src={category.img}
+                      alt={category.name}
+                      width={64}
+                      height={64}
+                      loading="lazy"
+                      className="w-16 h-16 object-contain drop-shadow-md"
+                    />
                   </div>
                   <h3 className="font-semibold text-foreground mb-1">{category.name}</h3>
                   <p className="text-xs text-muted-foreground">{category.jobs}</p>
