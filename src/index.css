@@ -16,15 +16,15 @@
     --primary-light: 217 91% 70%;
     --primary-dark: 217 91% 50%;
 
-    /* Secondary - Slate */
-    --secondary: 215 19% 35%;
+    /* Secondary - Warm Blue */
+    --secondary: 220 100% 55%;
     --secondary-foreground: 0 0% 100%;
-    --secondary-light: 215 16% 47%;
+    --secondary-light: 220 100% 65%;
 
-    /* Accent - Teal (#14B8A6) */
-    --accent: 173 80% 40%;
+    /* Accent - Energy Orange (#FB923C) */
+    --accent: 25 95% 61%;
     --accent-foreground: 0 0% 100%;
-    --accent-light: 173 70% 50%;
+    --accent-light: 25 95% 71%;
 
     /* UI Elements */
     --card: 0 0% 100%;                  /* #FFFFFF */
@@ -94,13 +94,13 @@
     --primary-light: 217 91% 75%;
     --primary-dark: 217 91% 55%;
 
-    --secondary: 215 25% 30%;
-    --secondary-foreground: 210 40% 98%;
-    --secondary-light: 215 20% 45%;
+    --secondary: 220 100% 60%;
+    --secondary-foreground: 222 47% 11%;
+    --secondary-light: 220 100% 70%;
 
-    --accent: 173 80% 50%;
+    --accent: 25 100% 60%;
     --accent-foreground: 222 47% 11%;
-    --accent-light: 173 70% 60%;
+    --accent-light: 25 100% 70%;
 
     --card: 222 47% 12%;
     --card-foreground: 210 40% 98%;
