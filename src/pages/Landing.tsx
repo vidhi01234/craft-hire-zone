@@ -205,17 +205,17 @@ export default function Landing() {
 
   const features = [
     {
-      icon: <Users className="h-8 w-8 text-primary" />,
+      img: featTrustedWorkers,
       title: "Trusted Local Workers",
       description: "Connect with verified household service providers in your neighborhood - electricians, plumbers, tutors, and more.",
     },
     {
-      icon: <Shield className="h-8 w-8 text-secondary" />,
+      img: featSafeSecure,
       title: "Safe & Secure",
       description: "All workers are background verified. Secure payments in Indian Rupees with customer protection.",
     },
     {
-      icon: <Star className="h-8 w-8 text-accent" />,
+      img: featQuality,
       title: "Quality Guaranteed",
       description: "Rating system and customer reviews ensure you get reliable, quality household services every time.",
     },
