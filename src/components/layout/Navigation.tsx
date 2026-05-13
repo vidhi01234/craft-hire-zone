@@ -163,13 +163,6 @@ export function Navigation() {
                   >
                     Log In
                   </Link>
-                  <Link
-                    to="/signup"
-                    className="block px-3 py-2 rounded-md text-base font-medium text-primary hover:text-primary-dark transition-smooth"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Sign Up
-                  </Link>
                 </>
               )}
             </div>
