@@ -97,18 +97,15 @@ export function Navigation() {
                 </DropdownMenu>
               </>
             ) : (
-              <>
+            <>
                 <Link 
                   to="/browse" 
                   className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium transition-smooth"
                 >
                   Browse Services
                 </Link>
-                <Button asChild variant="ghost">
-                  <Link to="/login">Log In</Link>
-                </Button>
                 <Button asChild>
-                  <Link to="/signup">Sign Up</Link>
+                  <Link to="/login">Log In</Link>
                 </Button>
               </>
             )}
