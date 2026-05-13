@@ -10,6 +10,9 @@ import catCarpenter from "@/assets/cat-carpenter.png";
 import catCleaning from "@/assets/cat-cleaning.png";
 import catTutor from "@/assets/cat-tutor.png";
 import catCook from "@/assets/cat-cook.png";
+import featTrustedWorkers from "@/assets/feat-trusted-workers.png";
+import featSafeSecure from "@/assets/feat-safe-secure.png";
+import featQuality from "@/assets/feat-quality.png";
 import { useAuth } from "@/hooks/useAuth";
 import { useJobs } from "@/hooks/useJobs";
 import { JobCard } from "@/components/jobs/JobCard";
@@ -202,17 +205,17 @@ export default function Landing() {
 
   const features = [
     {
-      icon: <Users className="h-8 w-8 text-primary" />,
+      img: featTrustedWorkers,
       title: "Trusted Local Workers",
       description: "Connect with verified household service providers in your neighborhood - electricians, plumbers, tutors, and more.",
     },
     {
-      icon: <Shield className="h-8 w-8 text-secondary" />,
+      img: featSafeSecure,
       title: "Safe & Secure",
       description: "All workers are background verified. Secure payments in Indian Rupees with customer protection.",
     },
     {
-      icon: <Star className="h-8 w-8 text-accent" />,
+      img: featQuality,
       title: "Quality Guaranteed",
       description: "Rating system and customer reviews ensure you get reliable, quality household services every time.",
     },
@@ -330,8 +333,15 @@ export default function Landing() {
                 className="glass-tint rounded-2xl p-8 transition-smooth hover:-translate-y-2 hover:glow-primary animate-fade-in"
                 style={{ animationDelay: `${index * 120}ms` }}
               >
-                <div className="mb-5 p-4 rounded-2xl bg-gradient-hero w-fit shadow-brand-md">
-                  <div className="text-white">{feature.icon}</div>
+                <div className="mx-auto mb-5 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                  <img
+                    src={feature.img}
+                    alt={feature.title}
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    className="w-16 h-16 object-contain drop-shadow-md"
+                  />
                 </div>
                 <h3 className="text-xl font-heading font-semibold mb-3">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
