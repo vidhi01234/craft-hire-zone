@@ -333,8 +333,15 @@ export default function Landing() {
                 className="glass-tint rounded-2xl p-8 transition-smooth hover:-translate-y-2 hover:glow-primary animate-fade-in"
                 style={{ animationDelay: `${index * 120}ms` }}
               >
-                <div className="mb-5 p-4 rounded-2xl bg-gradient-hero w-fit shadow-brand-md">
-                  <div className="text-white">{feature.icon}</div>
+                <div className="mx-auto mb-5 w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                  <img
+                    src={feature.img}
+                    alt={feature.title}
+                    width={64}
+                    height={64}
+                    loading="lazy"
+                    className="w-16 h-16 object-contain drop-shadow-md"
+                  />
                 </div>
                 <h3 className="text-xl font-heading font-semibold mb-3">{feature.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
