@@ -98,6 +98,7 @@ The platform supports multiple local and professional services, including:
 - ESLint
 
 ## Project Structure
+```text
 
 craft-hire-zone/
 │
