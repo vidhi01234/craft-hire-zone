@@ -1,73 +1,144 @@
-# Welcome to your Lovable project
+# Local Connect
 
-## Project info
+Local Connect is a service marketplace that connects people looking for local services with skilled workers who can offer them. Clients can post jobs with descriptions, locations, categories, and budgets, while workers can browse available opportunities, submit applications, manage their profiles, and track application status.
 
-**URL**: https://lovable.dev/projects/2f5aac22-d549-4214-ab89-bf4a0e268e11
+## Overview
 
-## How can I edit this code?
+Finding reliable local workers can be difficult, while skilled workers often struggle to find relevant opportunities.
 
-There are several ways of editing your application.
+Local Connect provides a platform where both sides can connect through a simple workflow:
 
-**Use Lovable**
+Client → Post a Job → Workers Discover Opportunities → Submit Applications → Client Reviews Applications → Job Completion → Reviews & Ratings
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2f5aac22-d549-4214-ab89-bf4a0e268e11) and start prompting.
+## Key Features
 
-Changes made via Lovable will be committed automatically to this repo.
+### For Clients
 
-**Use your preferred IDE**
+- Create and manage job postings
+- Add job descriptions, categories, locations, and budgets
+- View applications received for posted jobs
+- Review worker profiles
+- Accept or reject applications
+- Manage and delete job postings
+- View worker ratings and reviews
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### For Workers
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Browse available jobs
+- Search and filter jobs by category, location, and keywords
+- View detailed job information
+- Submit applications with proposals
+- Track application status
+- Withdraw applications
+- Manage worker profiles
+- Display skills, experience, availability, and hourly rates
+- View ratings and reviews
 
-Follow these steps:
+### User Profiles
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Separate worker and client profiles
+- Profile information and bio
+- Location and contact information
+- Worker skills and service categories
+- Experience and hourly rate
+- Ratings and completed jobs
+- Worker verification status
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Authentication & Verification
 
-# Step 3: Install the necessary dependencies.
-npm i
+- User registration and login
+- Authenticated user sessions
+- Worker identity verification
+- Document upload for verification
+- Verification status tracking
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Service Categories
 
-**Edit a file directly in GitHub**
+The platform supports multiple local and professional services, including:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Plumbing
+- Electrical Work
+- Cleaning
+- Cooking
+- Carpentry
+- Gardening
+- Tutoring
+- Handyman Services
+- Web Development
+- Mobile Development
+- Content Writing
+- Data Analysis
+- Graphic Design
+- E-commerce Services
 
-**Use GitHub Codespaces**
+## Tech Stack
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Frontend
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
 - React
-- shadcn-ui
+- TypeScript
+- Vite
 - Tailwind CSS
+- shadcn/ui
+- React Router
+- TanStack Query
+- Lucide React
 
-## How can I deploy this project?
+### Backend & Database
 
-Simply open [Lovable](https://lovable.dev/projects/2f5aac22-d549-4214-ab89-bf4a0e268e11) and click on Share -> Publish.
+- Supabase
+- PostgreSQL
+- Supabase Authentication
+- Supabase Storage
 
-## Can I connect a custom domain to my Lovable project?
+### Development Tools
 
-Yes, you can!
+- Node.js
+- npm
+- ESLint
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Project Structure
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+craft-hire-zone/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── applications/
+│   │   ├── jobs/
+│   │   ├── layout/
+│   │   ├── profile/
+│   │   └── ui/
+│   │
+│   ├── hooks/
+│   ├── integrations/
+│   │   └── supabase/
+│   │
+│   ├── pages/
+│   │   ├── Landing.tsx
+│   │   ├── Auth.tsx
+│   │   ├── BrowseJobs.tsx
+│   │   ├── JobDetail.tsx
+│   │   ├── ManageJob.tsx
+│   │   ├── WorkerDashboard.tsx
+│   │   ├── JobGiverDashboard.tsx
+│   │   ├── WorkerProfile.tsx
+│   │   └── ClientProfile.tsx
+│   │
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── package.json
+├── vite.config.ts
+├── tailwind.config.ts
+└── README.md
+
+## Project Status
+
+Local Connect is a collaborative project developed to make local service discovery and hiring more accessible by connecting clients with skilled workers through a single platform.
+
+## Contributors
+
+This project was developed collaboratively as a group project as part of our academic work.
