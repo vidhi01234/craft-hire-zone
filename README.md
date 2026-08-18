@@ -136,10 +136,4 @@ craft-hire-zone/
 ├── tailwind.config.ts
 └── README.md
 ```
-## Project Status
 
-Local Connect is a collaborative project developed to make local service discovery and hiring more accessible by connecting clients with skilled workers through a single platform.
-
-## Contributors
-
-This project was developed collaboratively as a group project as part of our academic work.
